@@ -39,7 +39,7 @@ export const getUserByEmail = ({
 }) => API.graphql(graphqlOperation(userByEmail, { email, filters }));
 
 export const createUser = ({ newUser }: { newUser: User }) =>
-  API.graphql(graphqlOperation(createUserQuery, { ...newUser }));
+  API.graphql({query: createUserQuery, variables: { input: newUser }, authMode: "AMAZON_COGNITO_USER_POOLS"});
 
 export const updateUser = ({ newUser, id }: { newUser: User; id?: Id }) =>
-  API.graphql(graphqlOperation(updateUserQuery, { id, ...newUser }));
+  API.graphql(graphqlOperation(updateUserQuery, { id, input: newUser }));

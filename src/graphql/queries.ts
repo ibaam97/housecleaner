@@ -20,6 +20,7 @@ export const getBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -91,6 +92,7 @@ export const getUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -113,6 +115,7 @@ export const listUsers = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -331,6 +334,7 @@ export const userByEmail = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -365,6 +369,7 @@ export const userByCountyAndGender = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

@@ -1,0 +1,81 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "authclientapp7938ab517938ab51UserPoolId": {
+            "Type": "String",
+            "Default": "authclientapp7938ab517938ab51UserPoolId"
+        },
+        
+        "authclientapp7938ab517938ab51AppClientID": {
+            "Type": "String",
+            "Default": "authclientapp7938ab517938ab51AppClientID"
+        },
+        "authclientapp7938ab517938ab51AppClientIDWeb": {
+            "Type": "String",
+            "Default": "authclientapp7938ab517938ab51AppClientIDWeb"
+        },
+        "AuthRoleArn": {
+            "Type": "String"
+        },
+        "UnauthRoleArn": {
+            "Type": "String"
+        },
+        "env": {
+            "Type": "String"
+        }
+    },
+    "Conditions": {
+        "ShouldNotCreateEnvResources": {
+            "Fn::Equals": [
+                {
+                    "Ref": "env"
+                },
+                "NONE"
+            ]
+        }
+    },
+    "Resources": {
+    
+        "UserGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "User",
+              "Precedence" : 1,
+              
+              "UserPoolId" : {
+                "Ref": "authclientapp7938ab517938ab51UserPoolId"
+              }
+            }
+        },
+        
+    
+        "ContractorGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "Contractor",
+              "Precedence" : 2,
+              
+              "UserPoolId" : {
+                "Ref": "authclientapp7938ab517938ab51UserPoolId"
+              }
+            }
+        },
+        
+    
+        "AdminGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "Admin",
+              "Precedence" : 3,
+              
+              "UserPoolId" : {
+                "Ref": "authclientapp7938ab517938ab51UserPoolId"
+              }
+            }
+        },
+        
+    
+    
+    },
+    
+}

@@ -20,6 +20,7 @@ export const onCreateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -70,6 +71,7 @@ export const onUpdateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -120,6 +122,7 @@ export const onDeleteBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -169,6 +172,7 @@ export const onCreateUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -189,6 +193,7 @@ export const onUpdateUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -209,6 +214,7 @@ export const onDeleteUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;

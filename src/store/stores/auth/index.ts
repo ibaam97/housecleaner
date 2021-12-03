@@ -46,7 +46,8 @@ export const AuthStore = types
       gender,
       phone,
       password,
-    }: UserRegistrationValues) {
+      type
+    }: UserRegistrationValues ) {
       try {
         const resp = yield Auth.signUp({
           username: email,
@@ -58,6 +59,7 @@ export const AuthStore = types
             family_name: lastname,
             name: firstname,
             gender: gender,
+            "custom:type": type
           },
         });
         // yield setToken(`Bearer ${token}`);
@@ -96,7 +98,6 @@ export const AuthStore = types
     logOut: flow(function* () {
       yield Auth.signOut();
       self.user = {};
-      localStorage.removeItem("token");
       self.token = "";
 
       return true;

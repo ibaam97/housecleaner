@@ -7,24 +7,16 @@ import ContractorRegistration from "@screens/Contractor/ContractorRegistration";
 import ContractorDashboard from "@screens/Contractor/ContractorDashboard";
 import awsConfig from "./aws-exports";
 import Amplify, { Auth } from "aws-amplify";
-import { getUsers } from "@services/api/users";
+import { createUser, getUsers } from "@services/api/users";
 import { RootStoreProvider } from "store";
 import { MakeBooking, UserHome } from "@screens/User/UserDashboard";
 import { UserSignIn, UserRegistration } from "@screens/User/UserAuthentication";
+import GENDER from "@enums/GENDER";
 
 Amplify.configure(awsConfig);
 
 function App() {
-  useEffect(() => {
-    (async () => {
-      try {
-        const users = await getUsers({});
-        console.log("users", users);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
+  
 
   return (
     <BrowserRouter>

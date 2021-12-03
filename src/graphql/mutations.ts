@@ -23,6 +23,7 @@ export const createBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -76,6 +77,7 @@ export const updateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -129,6 +131,7 @@ export const deleteBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       user_id
       contractor {
@@ -181,6 +184,7 @@ export const createUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -204,6 +208,7 @@ export const updateUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -227,6 +232,7 @@ export const deleteUser = /* GraphQL */ `
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;

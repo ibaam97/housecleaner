@@ -8,7 +8,6 @@ export const RootStore = types.model("RootStore", {
 
 export const createRootStore = () => {
   const authStore = AuthStore.create();
-  persist("auth", authStore);
 
   return RootStore.create({
     authStore,

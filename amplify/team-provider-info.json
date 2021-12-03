@@ -1,25 +1,34 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-clientapp-dev-171846-authRole",
-      "UnauthRoleArn": "arn:aws:iam::204376745661:role/amplify-clientapp-dev-171846-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::204376745661:role/amplify-clientapp-dev-171846-authRole",
+      "AuthRoleName": "amplify-clientapp-dev-110119-authRole",
+      "UnauthRoleArn": "arn:aws:iam::204376745661:role/amplify-clientapp-dev-110119-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::204376745661:role/amplify-clientapp-dev-110119-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-clientapp-dev-171846-deployment",
-      "UnauthRoleName": "amplify-clientapp-dev-171846-unauthRole",
-      "StackName": "amplify-clientapp-dev-171846",
-      "StackId": "arn:aws:cloudformation:us-east-1:204376745661:stack/amplify-clientapp-dev-171846/eb884230-4edc-11ec-8b69-0a69a3c6bd59",
-      "AmplifyAppId": "d3qti8937rjeqm"
+      "DeploymentBucketName": "amplify-clientapp-dev-110119-deployment",
+      "UnauthRoleName": "amplify-clientapp-dev-110119-unauthRole",
+      "StackName": "amplify-clientapp-dev-110119",
+      "StackId": "arn:aws:cloudformation:us-east-1:204376745661:stack/amplify-clientapp-dev-110119/5c183c80-5428-11ec-91f6-0a7487bf6e8b",
+      "AmplifyAppId": "dex80c6alyog1"
     },
     "categories": {
       "function": {
-        "clientapp53b23a2153b23a21PostConfirmation": {
-          "GROUP": "Users"
+        "clientapp7938ab517938ab51PostConfirmation": {
+          "GROUP": "User",
+          "deploymentBucketName": "amplify-clientapp-dev-110119-deployment",
+          "s3Key": "amplify-builds/clientapp7938ab517938ab51PostConfirmation-34637841376879485763-build.zip"
         },
-        "clientapp53b23a2153b23a21PreSignup": {}
+        "clientapp7938ab517938ab51PreSignup": {
+          "deploymentBucketName": "amplify-clientapp-dev-110119-deployment",
+          "s3Key": "amplify-builds/clientapp7938ab517938ab51PreSignup-327777427434736c6243-build.zip"
+        },
+        "AdminQueries9e79fd59": {
+          "deploymentBucketName": "amplify-clientapp-dev-110119-deployment",
+          "s3Key": "amplify-builds/AdminQueries9e79fd59-4156562f6a4247343072-build.zip"
+        }
       },
       "auth": {
-        "clientapp53b23a2153b23a21": {}
+        "clientapp7938ab517938ab51": {}
       }
     }
   }

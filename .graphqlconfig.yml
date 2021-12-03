@@ -1,6 +1,6 @@
 projects:
-  nannyHouseApi:
-    schemaPath: amplify/backend/api/nannyHouseApi/build/schema.graphql
+  clientappApi:
+    schemaPath: amplify/backend/api/clientappApi/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

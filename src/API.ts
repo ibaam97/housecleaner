@@ -124,6 +124,7 @@ export type User = {
   gender?: GENDER | null,
   createdAt: string,
   updatedAt: string,
+  owner?: string | null,
 };
 
 export type ModelBookingConnection = {
@@ -429,6 +430,7 @@ export type CreateBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -487,6 +489,7 @@ export type UpdateBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -545,6 +548,7 @@ export type DeleteBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -602,6 +606,7 @@ export type CreateUserMutation = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -628,6 +633,7 @@ export type UpdateUserMutation = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -654,6 +660,7 @@ export type DeleteUserMutation = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -860,6 +867,7 @@ export type GetBookingQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -941,6 +949,7 @@ export type GetUserQuery = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -966,6 +975,7 @@ export type ListUsersQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1187,6 +1197,7 @@ export type UserByEmailQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1217,6 +1228,7 @@ export type UserByCountyAndGenderQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1367,6 +1379,7 @@ export type OnCreateBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -1420,6 +1433,7 @@ export type OnUpdateBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -1473,6 +1487,7 @@ export type OnDeleteBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
+      owner?: string | null,
     },
     user_id: string,
     contractor?:  {
@@ -1525,6 +1540,7 @@ export type OnCreateUserSubscription = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -1546,6 +1562,7 @@ export type OnUpdateUserSubscription = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 
@@ -1567,6 +1584,7 @@ export type OnDeleteUserSubscription = {
     gender?: GENDER | null,
     createdAt: string,
     updatedAt: string,
+    owner?: string | null,
   } | null,
 };
 

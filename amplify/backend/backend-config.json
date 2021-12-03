@@ -1,4 +1,30 @@
 {
+  "function": {
+    "clientapp7938ab517938ab51PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "clientapp7938ab517938ab51PreSignup": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "AdminQueries9e79fd59": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "clientapp7938ab517938ab51",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ]
+    }
+  },
   "auth": {
     "userPoolGroups": {
       "service": "Cognito-UserPool-Groups",
@@ -6,7 +32,7 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
+          "resourceName": "clientapp7938ab517938ab51",
           "attributes": [
             "UserPoolId",
             "AppClientIDWeb",
@@ -15,13 +41,13 @@
         }
       ]
     },
-    "clientapp53b23a2153b23a21": {
+    "clientapp7938ab517938ab51": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "clientapp53b23a2153b23a21PostConfirmation",
+          "resourceName": "clientapp7938ab517938ab51PostConfirmation",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -30,7 +56,7 @@
         },
         {
           "category": "function",
-          "resourceName": "clientapp53b23a2153b23a21PreSignup",
+          "resourceName": "clientapp7938ab517938ab51PreSignup",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -46,6 +72,7 @@
         "signupAttributes": [
           "ADDRESS",
           "EMAIL",
+          "FAMILY_NAME",
           "GENDER",
           "NAME",
           "PHONE_NUMBER"
@@ -65,7 +92,7 @@
     }
   },
   "api": {
-    "nannyHouseApi": {
+    "clientappApi": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -73,60 +100,12 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authclientapp4c6edb44"
+              "userPoolId": "authclientapp7938ab517938ab51"
             }
           },
           "additionalAuthenticationProviders": []
         }
       }
-    },
-    "AdminQueries": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
-          "attributes": [
-            "UserPoolId"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "AdminQueries2e63f42b",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        }
-      ]
-    }
-  },
-  "function": {
-    "clientapp53b23a2153b23a21PostConfirmation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "clientapp53b23a2153b23a21PreSignup": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "AdminQueries2e63f42b": {
-      "service": "Lambda",
-      "providerPlugin": "awscloudformation",
-      "build": true,
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
-          "attributes": [
-            "UserPoolId"
-          ]
-        }
-      ]
     }
   }
 }
