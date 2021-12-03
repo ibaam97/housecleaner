@@ -1,0 +1,165 @@
+mutation createServices {
+  service_1: createService(
+    input: {name: "Cleaning", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore dicta fugit autem quae! Quis unde eligendi rerum vero minima voluptate similique quam consequatur, voluptates veniam placeat et, itaque saepe. Aspernatur.", id: "service_1"}
+  ) {
+    id
+    name
+    description
+  }
+  service_2: createService(
+    input: {name: "Plumbing", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore dicta fugit autem quae! Quis unde eligendi rerum vero minima voluptate similique quam consequatur, voluptates veniam placeat et, itaque saepe. Aspernatur.", id: "service_2"}
+  ) {
+    id
+    name
+    description
+  }
+  service_3: createService(
+    input: {name: "Painter", description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore dicta fugit autem quae! Quis unde eligendi rerum vero minima voluptate similique quam consequatur, voluptates veniam placeat et, itaque saepe. Aspernatur.", id: "service_3"}
+  ) {
+    id
+    name
+    description
+  }
+}
+
+mutation createUsers {
+  user_1: createUser(
+    input: {firstname: "Tunde", lastname: "Abayomi", email: "user_1@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "user_1"}
+  ) {
+    id
+  }
+  user_2: createUser(
+    input: {firstname: "Kunle", lastname: "Ade", email: "user_2@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "user_2"}
+  ) {
+    id
+  }
+  user_3: createUser(
+    input: {firstname: "Alami", lastname: "Isaca", email: "user_3@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "user_3"}
+  ) {
+    id
+  }
+}
+
+mutation createContractor {
+  contractor_1: createContractor(
+    input: {firstname: "Jihaddi", lastname: "John", email: "contractor_1@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "contractor_1", service_id: "service_1"}
+  ) {
+    id
+  }
+  contractor_2: createContractor(
+    input: {firstname: "Govana", lastname: "Idirs", email: "contractor_2@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "contractor_2", service_id: "service_2"}
+  ) {
+    id
+  }
+  contractor_3: createContractor(
+    input: {firstname: "Tisa", lastname: "Lane", email: "contractor_3@g.com", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", county: "Dublin", eircode: "D01 K93", phone: "0894907828", gender: MALE, id: "contractor_3", service_id: "service_3"}
+  ) {
+    id
+  }
+}
+
+mutation createBooking {
+  booking_1: createBooking(
+    input: {date: "2021-12-02T11:28:41.807Z", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", user_id: "user_1", service_id: "service_1", contractor_id:"contractor_1", booking_status: UNASSIGNED, id: "booking_1"}
+  ) {
+    id
+  }
+  booking_2: createBooking(
+    input: {date: "2021-12-02T11:28:41.807Z", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", user_id: "user_1", service_id: "service_2", contractor_id:"contractor_2", booking_status: UNASSIGNED, id: "booking_2"}
+  ) {
+    id
+  }
+  booking_3: createBooking(
+    input: {date: "2021-12-02T11:28:41.807Z", address: "Lorem ipsum dolor sit amet, consectetur adipisicing elit", user_id: "user_2", service_id: "service_3", contractor_id:"contractor_3", booking_status: UNASSIGNED, id: "booking_3"}
+  ) {
+    id
+  }
+}
+
+query listUsers {
+  listUsers {
+    items {
+      address
+      bookings {
+        items {
+          id
+          date
+          booking_status
+          address
+          service {
+            name
+          }
+          contractor {
+            firstname
+            lastname
+          }
+        }
+      }
+    }
+  }
+}
+
+query listContractors {
+  listContractors {
+    items {
+      address
+      bookings {
+        items {
+          id
+          date
+          booking_status
+          address
+          service {
+            name
+          }
+          user {
+            firstname
+            lastname
+          }
+        }
+      }
+    }
+  }
+}
+
+query listBookings {
+  listBookings {
+    items {
+      address
+      booking_status
+      contractor {
+        firstname
+        lastname
+      }
+      service {
+        name
+      }
+      user {
+        firstname
+        lastname
+      }
+    }
+  }
+}
+
+query listServices {
+  listServices {
+    items {
+      contractors {
+        items {
+          lastname
+          firstname
+        }
+      }
+      bookings {
+        items {
+          address
+          user {
+            lastname
+            firstname
+          }
+        }
+      }
+    }
+  }
+}

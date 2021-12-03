@@ -1,0 +1,120 @@
+## [Start] Set query expression for @key **
+#set( $modelQueryExpression = {} )
+## [Start] Validate key arguments. **
+#if( !$util.isNull($ctx.args.countyGender) && $util.isNullOrBlank($ctx.args.service_id) )
+  $util.error("When providing argument 'countyGender' you must also provide 'service_id'.", "InvalidArgumentsError")
+#end
+#if( !$util.isNull($ctx.args.countyGender) )
+  #set( $sortKeyArgumentOperations = $ctx.args.countyGender.keySet() )
+  #if( $sortKeyArgumentOperations.size() > 1 )
+    $util.error("Argument countyGender must specify at most one key condition operation.", "InvalidArgumentsError")
+  #end
+  #foreach( $operation in $sortKeyArgumentOperations )
+    #if( $operation == "between" )
+      #if( $ctx.args.countyGender.between.size() != 2 )
+        $util.error("Argument 'countyGender.between' expects exactly two elements.", "InvalidArgumentsError")
+      #end
+      #if( !$util.isNullOrBlank($ctx.args.countyGender.between[0].gender) && $util.isNullOrBlank($ctx.args.countyGender.between[0].county) )
+        $util.error("When providing argument 'countyGender.between[0].gender' you must also provide 'countyGender.between[0].county'.", "InvalidArgumentsError")
+      #end
+      #if( !$util.isNullOrBlank($ctx.args.countyGender.between[1].gender) && $util.isNullOrBlank($ctx.args.countyGender.between[1].county) )
+        $util.error("When providing argument 'countyGender.between[1].gender' you must also provide 'countyGender.between[1].county'.", "InvalidArgumentsError")
+      #end
+    #else
+      #if( !$util.isNullOrBlank($ctx.args.countyGender.get("$operation").gender) && $util.isNullOrBlank($ctx.args.countyGender.get("$operation").county) )
+        $util.error("When providing argument 'countyGender.$operation.gender' you must also provide 'countyGender.$operation.county'.", "InvalidArgumentsError")
+      #end
+    #end
+  #end
+#end
+## [End] Validate key arguments. **
+#if( !$util.isNull($ctx.args.service_id) )
+  #set( $modelQueryExpression.expression = "#service_id = :service_id" )
+  #set( $modelQueryExpression.expressionNames = {
+  "#service_id": "service_id"
+} )
+  #set( $modelQueryExpression.expressionValues = {
+  ":service_id": {
+      "S": "$ctx.args.service_id"
+  }
+} )
+#end
+## [Start] Applying Key Condition **
+#set( $sortKeyValue = "" )
+#set( $sortKeyValue2 = "" )
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.beginsWith) )
+#if( !$util.isNull($ctx.args.countyGender.beginsWith.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.beginsWith.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.beginsWith.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.beginsWith.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND begins_with(#sortKey, :sortKey)" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.between) )
+  #if( $ctx.args.countyGender.between.size() != 2 )
+    $util.error("Argument countyGender.between expects exactly 2 elements.")
+  #end
+#if( !$util.isNull($ctx.args.countyGender.between[0].county) ) #set( $sortKeyValue = "$ctx.args.countyGender.between[0].county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.between[0].gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.between[0].gender" ) #end
+#if( !$util.isNull($ctx.args.countyGender.between[1].county) ) #set( $sortKeyValue2 = "$ctx.args.countyGender.between[1].county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.between[1].gender) ) #set( $sortKeyValue2 = "$sortKeyValue2#$ctx.args.countyGender.between[1].gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey BETWEEN :sortKey0 AND :sortKey1" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey0", { "S": "$sortKeyValue" }))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey1", { "S": "$sortKeyValue2" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.eq) )
+#if( !$util.isNull($ctx.args.countyGender.eq.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.eq.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.eq.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.eq.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey = :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.lt) )
+#if( !$util.isNull($ctx.args.countyGender.lt.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.lt.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.lt.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.lt.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey < :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.le) )
+#if( !$util.isNull($ctx.args.countyGender.le.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.le.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.le.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.le.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey <= :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.gt) )
+#if( !$util.isNull($ctx.args.countyGender.gt.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.gt.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.gt.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.gt.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey > :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+#if( !$util.isNull($ctx.args.countyGender) && !$util.isNull($ctx.args.countyGender.ge) )
+#if( !$util.isNull($ctx.args.countyGender.ge.county) ) #set( $sortKeyValue = "$ctx.args.countyGender.ge.county" ) #end
+#if( !$util.isNull($ctx.args.countyGender.ge.gender) ) #set( $sortKeyValue = "$sortKeyValue#$ctx.args.countyGender.ge.gender" ) #end
+  #set( $modelQueryExpression.expression = "$modelQueryExpression.expression AND #sortKey >= :sortKey" )
+  $util.qr($modelQueryExpression.expressionNames.put("#sortKey", "county#gender"))
+  $util.qr($modelQueryExpression.expressionValues.put(":sortKey", { "S": "$sortKeyValue" }))
+#end
+
+
+## [End] Applying Key Condition **
+## [End] Set query expression for @key **
+#set( $limit = $util.defaultIfNull($context.args.limit, 100) )
+#set( $QueryRequest = {
+  "version": "2018-05-29",
+  "operation": "Query",
+  "limit": $limit,
+  "query": $modelQueryExpression,
+  "index": "byServiceAndCountyAndGender"
+} )
+#if( !$util.isNull($ctx.args.sortDirection)
+                    && $ctx.args.sortDirection == "DESC" )
+  #set( $QueryRequest.scanIndexForward = false )
+#else
+  #set( $QueryRequest.scanIndexForward = true )
+#end
+#if( $context.args.nextToken ) #set( $QueryRequest.nextToken = $context.args.nextToken ) #end
+#if( $context.args.filter ) #set( $QueryRequest.filter = $util.parseJson("$util.transform.toDynamoDBFilterExpression($ctx.args.filter)") ) #end
+$util.toJson($QueryRequest)

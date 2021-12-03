@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components"],
+      "@UIComponents/*": ["components/UIComponents/*"],
+      "@functional/*": ["components/functional/*"],
+      "@screens/*": ["screens/*"],
+      "@constants/*": ["constants/*"],
+      "@styles/*": ["styles/*"],
+      "@schemas/*": ["schemas/*"],
+      "@testdata/*": ["testdata/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@enums/*": ["enums/*"],
+      "@services/*": ["services/*"]
+    }
+  }
+}
