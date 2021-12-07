@@ -1,3 +1,4 @@
+import ROUTES from "@constants/ROUTES";
 import MakeBookingSchema from "@schemas/makeBookingSchema";
 import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
 import FormInput from "@UIComponents/form/FormInput/FormInput";
@@ -6,13 +7,22 @@ import Section from "@UIComponents/layout/Section";
 import { Card } from "antd";
 import { Form, Formik, FormikHelpers } from "formik";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRootStore } from "store";
 import { MakeBookingValues } from "./MakeBookingValues";
 
 export interface IMakeBookingProps {}
 
 export function MakeBooking(props: IMakeBookingProps) {
   const navigate = useNavigate();
+
+  const params = useParams();
+
+  const service_id = params.id;
+
+  const {
+    bookingsStore: { createBooking },
+  } = useRootStore();
 
   const initialValues: MakeBookingValues = {
     address: "",
@@ -27,11 +37,11 @@ export function MakeBooking(props: IMakeBookingProps) {
   ) => {
     console.log(values);
     try {
-      // navigate("/user/dashboard");
-      // await authStore.signIn(values);
-      // await authStore.getUserProfile();
+      const booking = await createBooking({ ...values, service_id });
+      console.log(booking);
+      navigate(ROUTES.UserDashboard);
     } catch (error) {
-      // actions.setSubmitting(false);
+      console.log(error);
     }
   };
 
@@ -85,4 +95,4 @@ export function MakeBooking(props: IMakeBookingProps) {
   );
 }
 
-export default MakeBooking
+export default MakeBooking;

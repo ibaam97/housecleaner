@@ -8,10 +8,13 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import COLORS from "@styles/COLORS";
 import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
-import { Divider } from "antd";
+import { Badge, Divider } from "antd";
+import BOOKING_STATUS from "@enums/BOOKING_STATUS.enum";
+import TextPulse from "@UIComponents/TextPulse";
 
 export interface IBookingJobsCardProps {
-  //   booking: Booking;
+  booking: Booking;
+  onClick: (id, booking) => any;
   [prop: string]: any;
 }
 
@@ -19,33 +22,63 @@ const StyledField = styled.div`
   ${tw``}
 `;
 export function BookingJobsCard({
-  //   booking: { service },
+  booking,
+  onClick,
   ...props
 }: IBookingJobsCardProps) {
+  const { service, address, date, user, id } = booking;
+
   return (
     <div>
-      <div className="px-5 py-5 flex gap-12 items-center">
+      <div className="px-5 py-5 flex gap-12">
         <StyledField>
           <BaseText fontSize="1rem">Type</BaseText>
-          <Paragraph>{"House Keeeper"}</Paragraph>
+          <Paragraph>{service?.name}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Customer</BaseText>
-          <Paragraph>{"Allen Poe"}</Paragraph>
+          <Paragraph>{user?.firstname}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Address</BaseText>
-          <Paragraph>Lorem ipsum dolor sit amet.</Paragraph>
+          <Paragraph>{address}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Date</BaseText>
-          <Paragraph>{format(Date.now(), "dd-mm-yy")}</Paragraph>
+          <Paragraph className="w-max">
+            {format(new Date(date), "dd-mm-yy")}
+          </Paragraph>
         </StyledField>
 
-        <div className="ml-auto flex gap-4">
-          <ButtonDefault>Check-In</ButtonDefault>
-          <ButtonDefault>Cancel</ButtonDefault>
-        </div>
+        {booking.booking_status === BOOKING_STATUS.COMPLETED ||
+        booking.booking_status === BOOKING_STATUS.PAID ? (
+          <TextPulse
+            color={
+              booking.booking_status === BOOKING_STATUS.COMPLETED
+                ? "yellow"
+                : "green"
+            }
+            size="default"
+            status="warning"
+            className="self-center"
+          >
+            {booking.booking_status === BOOKING_STATUS.COMPLETED
+              ? "Confirmed"
+              : "Paid"}
+          </TextPulse>
+        ) : (
+          <div className="ml-auto grid gap-4 w-max self-center">
+            <ButtonDefault
+              onClick={() => onClick(id, booking)}
+              className="w-max"
+            >
+              {booking.booking_status === BOOKING_STATUS.ASSIGNED
+                ? "Check-In"
+                : "Check-Out"}
+            </ButtonDefault>
+            <ButtonDefault>Cancel</ButtonDefault>
+          </div>
+        )}
       </div>
       <Divider />
     </div>

@@ -9,7 +9,10 @@ const ROUTES = {
   Service: "/services/:id",
   getServiceRoute: (id) => ROUTES.Service.replace(":id", id),
   UserBookings: "/user/bookings",
+  UserBooking: "/user/bookings/:id",
   MakeBooking: "/user/bookings/make/:id",
+  ContractorVerifyUser: "/contractor/verify/:email",
+  UserVerifyUser: "/user/verify/:email",
   getMakeBookingRoute: (id) => ROUTES.MakeBooking.replace(":id", id),
 };
 

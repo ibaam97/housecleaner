@@ -1,6 +1,6 @@
 projects:
-  clientappApi:
-    schemaPath: amplify/backend/api/clientappApi/build/schema.graphql
+  clientapp:
+    schemaPath: amplify/backend/api/clientapp/build/schema.graphql
     includes:
       - src/graphql/**/*.ts
     excludes:

@@ -3,21 +3,22 @@ import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "@screens/Landing";
 import ROUTES from "@constants/ROUTES";
-import ContractorRegistration from "@screens/Contractor/ContractorRegistration";
-import ContractorDashboard from "@screens/Contractor/ContractorDashboard";
 import awsConfig from "./aws-exports";
 import Amplify, { Auth } from "aws-amplify";
-import { createUser, getUsers } from "@services/api/users";
 import { RootStoreProvider } from "store";
-import { MakeBooking, UserHome } from "@screens/User/UserDashboard";
+import {
+  MakeBooking,
+  UserBookings,
+  UserHome,
+} from "@screens/User/UserDashboard";
 import { UserSignIn, UserRegistration } from "@screens/User/UserAuthentication";
-import GENDER from "@enums/GENDER";
+import { ContractorHome } from "@screens/Contractor/ContractorDashboard";
+import ContractorRegistration from "@screens/Contractor/ContractorAuthentication/ContractorRegistration";
+// import UserBooking from "@screens/User/UserDashboard/UserBooking";
 
 Amplify.configure(awsConfig);
 
 function App() {
-  
-
   return (
     <BrowserRouter>
       <RootStoreProvider>
@@ -31,9 +32,11 @@ function App() {
           <Route path={ROUTES.UserDashboard} element={<UserHome />} />
           <Route
             path={ROUTES.ContractorDashboard}
-            element={<ContractorDashboard />}
+            element={<ContractorHome />}
           />
           <Route path={ROUTES.MakeBooking} element={<MakeBooking />} />
+          <Route path={ROUTES.UserBookings} element={<UserBookings />} />
+          {/* <Route path={ROUTES.UserBooking} element={<UserBooking />} /> */}
           <Route
             path={ROUTES.ContractorRegistration}
             element={<ContractorRegistration />}

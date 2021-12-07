@@ -1,7 +1,8 @@
-import BOOKING_STATUS from "enums/booking_status.enu";
+import BOOKING_STATUS from "enums/BOOKING_STATUS.enum";
 import Contractor from "./Contractor";
 import Id from "./Id";
 import Service from "./Service";
+import User from "./User";
 
 type Booking = {
   user_id?: Id;

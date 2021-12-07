@@ -8,6 +8,14 @@ export const onCreateBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -20,9 +28,7 @@ export const onCreateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -38,7 +44,6 @@ export const onCreateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -46,10 +51,6 @@ export const onCreateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -59,6 +60,14 @@ export const onUpdateBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -71,9 +80,7 @@ export const onUpdateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -89,7 +96,6 @@ export const onUpdateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -97,10 +103,6 @@ export const onUpdateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -110,6 +112,14 @@ export const onDeleteBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -122,9 +132,7 @@ export const onDeleteBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -140,7 +148,6 @@ export const onDeleteBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -148,10 +155,6 @@ export const onDeleteBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -166,13 +169,12 @@ export const onCreateUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -187,13 +189,12 @@ export const onUpdateUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -208,13 +209,12 @@ export const onDeleteUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -229,6 +229,11 @@ export const onCreateContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -239,11 +244,6 @@ export const onCreateContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -258,6 +258,11 @@ export const onUpdateContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -268,11 +273,6 @@ export const onUpdateContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -287,6 +287,11 @@ export const onDeleteContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -297,11 +302,6 @@ export const onDeleteContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -311,14 +311,14 @@ export const onCreateService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -328,14 +328,14 @@ export const onUpdateService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -345,14 +345,14 @@ export const onDeleteService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;

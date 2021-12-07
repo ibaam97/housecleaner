@@ -11,6 +11,14 @@ export const createBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -23,9 +31,7 @@ export const createBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -41,7 +47,6 @@ export const createBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -49,10 +54,6 @@ export const createBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -65,6 +66,14 @@ export const updateBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -77,9 +86,7 @@ export const updateBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -95,7 +102,6 @@ export const updateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -103,10 +109,6 @@ export const updateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -119,6 +121,14 @@ export const deleteBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -131,9 +141,7 @@ export const deleteBooking = /* GraphQL */ `
         gender
         createdAt
         updatedAt
-        owner
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -149,7 +157,6 @@ export const deleteBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
@@ -157,10 +164,6 @@ export const deleteBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -178,13 +181,12 @@ export const createUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -202,13 +204,12 @@ export const updateUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -226,13 +227,12 @@ export const deleteUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
-      owner
+      bookings {
+        nextToken
+      }
     }
   }
 `;
@@ -250,6 +250,11 @@ export const createContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -260,11 +265,6 @@ export const createContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -282,6 +282,11 @@ export const updateContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -292,11 +297,6 @@ export const updateContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -314,6 +314,11 @@ export const deleteContractor = /* GraphQL */ `
       eircode
       id
       image
+      service_id
+      gender
+      phone
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -324,11 +329,6 @@ export const deleteContractor = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -341,14 +341,14 @@ export const createService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -361,14 +361,14 @@ export const updateService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -381,14 +381,14 @@ export const deleteService = /* GraphQL */ `
       name
       id
       description
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;

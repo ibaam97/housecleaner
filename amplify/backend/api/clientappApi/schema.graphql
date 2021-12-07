@@ -2,7 +2,7 @@ type Booking
   @model
   @key(
     name: "byUser"
-    fields: ["user_id", "date"]
+    fields: ["user_id"]
     queryField: "bookingsByUserAndDate"
   )
   @key(
@@ -45,7 +45,7 @@ type User
   county: String!
   eircode: String!
   phone: String!
-  bookings: [Booking] @connection(keyName: "byUser", fields: ["id"]) @auth(rules: [{ allow: owner, operations: [create, update, read] }])
+  bookings: [Booking] @connection(keyName: "byUser", fields: ["email"])
   gender: GENDER
 }
 

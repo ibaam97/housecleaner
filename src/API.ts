@@ -6,10 +6,14 @@ export type CreateBookingInput = {
   id?: string | null,
   date: string,
   address: string,
+  county?: string | null,
+  eircode?: string | null,
   user_id: string,
   contractor_id?: string | null,
   service_id: string,
   booking_status: BOOKING_STATUS,
+  checkin_time?: string | null,
+  checkout_time?: string | null,
 };
 
 export enum BOOKING_STATUS {
@@ -24,10 +28,14 @@ export enum BOOKING_STATUS {
 export type ModelBookingConditionInput = {
   date?: ModelStringInput | null,
   address?: ModelStringInput | null,
+  county?: ModelStringInput | null,
+  eircode?: ModelStringInput | null,
   user_id?: ModelIDInput | null,
   contractor_id?: ModelIDInput | null,
   service_id?: ModelIDInput | null,
   booking_status?: ModelBOOKING_STATUSInput | null,
+  checkin_time?: ModelStringInput | null,
+  checkout_time?: ModelStringInput | null,
   and?: Array< ModelBookingConditionInput | null > | null,
   or?: Array< ModelBookingConditionInput | null > | null,
   not?: ModelBookingConditionInput | null,
@@ -99,15 +107,19 @@ export type Booking = {
   id: string,
   date: string,
   address: string,
-  user: User,
+  county?: string | null,
+  eircode?: string | null,
   user_id: string,
-  contractor?: Contractor | null,
   contractor_id?: string | null,
-  service: Service,
   service_id: string,
   booking_status: BOOKING_STATUS,
+  checkin_time?: string | null,
+  checkout_time?: string | null,
   createdAt: string,
   updatedAt: string,
+  user: User,
+  contractor?: Contractor | null,
+  service: Service,
 };
 
 export type User = {
@@ -120,17 +132,10 @@ export type User = {
   county: string,
   eircode: string,
   phone: string,
-  bookings?: ModelBookingConnection | null,
   gender?: GENDER | null,
   createdAt: string,
   updatedAt: string,
-  owner?: string | null,
-};
-
-export type ModelBookingConnection = {
-  __typename: "ModelBookingConnection",
-  items?:  Array<Booking | null > | null,
-  nextToken?: string | null,
+  bookings?: ModelBookingConnection | null,
 };
 
 export enum GENDER {
@@ -139,6 +144,12 @@ export enum GENDER {
   NON_BINARY = "NON_BINARY",
 }
 
+
+export type ModelBookingConnection = {
+  __typename: "ModelBookingConnection",
+  items?:  Array<Booking | null > | null,
+  nextToken?: string | null,
+};
 
 export type Contractor = {
   __typename: "Contractor",
@@ -150,13 +161,13 @@ export type Contractor = {
   eircode: string,
   id: string,
   image?: string | null,
-  bookings?: ModelBookingConnection | null,
-  service: Service,
   service_id: string,
   gender: GENDER,
   phone: string,
   createdAt: string,
   updatedAt: string,
+  bookings?: ModelBookingConnection | null,
+  service: Service,
 };
 
 export type Service = {
@@ -164,10 +175,10 @@ export type Service = {
   name: string,
   id: string,
   description: string,
-  bookings?: ModelBookingConnection | null,
-  contractors?: ModelContractorConnection | null,
   createdAt: string,
   updatedAt: string,
+  bookings?: ModelBookingConnection | null,
+  contractors?: ModelContractorConnection | null,
 };
 
 export type ModelContractorConnection = {
@@ -180,10 +191,14 @@ export type UpdateBookingInput = {
   id: string,
   date?: string | null,
   address?: string | null,
+  county?: string | null,
+  eircode?: string | null,
   user_id?: string | null,
   contractor_id?: string | null,
   service_id?: string | null,
   booking_status?: BOOKING_STATUS | null,
+  checkin_time?: string | null,
+  checkout_time?: string | null,
 };
 
 export type DeleteBookingInput = {
@@ -313,14 +328,34 @@ export type ModelBookingFilterInput = {
   id?: ModelIDInput | null,
   date?: ModelStringInput | null,
   address?: ModelStringInput | null,
+  county?: ModelStringInput | null,
+  eircode?: ModelStringInput | null,
   user_id?: ModelIDInput | null,
   contractor_id?: ModelIDInput | null,
   service_id?: ModelIDInput | null,
   booking_status?: ModelBOOKING_STATUSInput | null,
+  checkin_time?: ModelStringInput | null,
+  checkout_time?: ModelStringInput | null,
   and?: Array< ModelBookingFilterInput | null > | null,
   or?: Array< ModelBookingFilterInput | null > | null,
   not?: ModelBookingFilterInput | null,
 };
+
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
@@ -360,37 +395,6 @@ export type ModelContractorFilterInput = {
   not?: ModelContractorFilterInput | null,
 };
 
-export type ModelServiceFilterInput = {
-  name?: ModelStringInput | null,
-  id?: ModelIDInput | null,
-  description?: ModelStringInput | null,
-  and?: Array< ModelServiceFilterInput | null > | null,
-  or?: Array< ModelServiceFilterInput | null > | null,
-  not?: ModelServiceFilterInput | null,
-};
-
-export type ModelServiceConnection = {
-  __typename: "ModelServiceConnection",
-  items?:  Array<Service | null > | null,
-  nextToken?: string | null,
-};
-
-export type ModelStringKeyConditionInput = {
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelContractorByServiceAndCountyAndGenderCompositeKeyConditionInput = {
   eq?: ModelContractorByServiceAndCountyAndGenderCompositeKeyInput | null,
   le?: ModelContractorByServiceAndCountyAndGenderCompositeKeyInput | null,
@@ -406,6 +410,21 @@ export type ModelContractorByServiceAndCountyAndGenderCompositeKeyInput = {
   gender?: GENDER | null,
 };
 
+export type ModelServiceFilterInput = {
+  name?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  description?: ModelStringInput | null,
+  and?: Array< ModelServiceFilterInput | null > | null,
+  or?: Array< ModelServiceFilterInput | null > | null,
+  not?: ModelServiceFilterInput | null,
+};
+
+export type ModelServiceConnection = {
+  __typename: "ModelServiceConnection",
+  items?:  Array<Service | null > | null,
+  nextToken?: string | null,
+};
+
 export type CreateBookingMutationVariables = {
   input: CreateBookingInput,
   condition?: ModelBookingConditionInput | null,
@@ -417,6 +436,14 @@ export type CreateBookingMutation = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -430,9 +457,7 @@ export type CreateBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -449,7 +474,6 @@ export type CreateBookingMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -458,10 +482,6 @@ export type CreateBookingMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -476,6 +496,14 @@ export type UpdateBookingMutation = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -489,9 +517,7 @@ export type UpdateBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -508,7 +534,6 @@ export type UpdateBookingMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -517,10 +542,6 @@ export type UpdateBookingMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -535,6 +556,14 @@ export type DeleteBookingMutation = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -548,9 +577,7 @@ export type DeleteBookingMutation = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -567,7 +594,6 @@ export type DeleteBookingMutation = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -576,10 +602,6 @@ export type DeleteBookingMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -599,14 +621,13 @@ export type CreateUserMutation = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -626,14 +647,13 @@ export type UpdateUserMutation = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -653,14 +673,13 @@ export type DeleteUserMutation = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -680,6 +699,11 @@ export type CreateContractorMutation = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -692,11 +716,6 @@ export type CreateContractorMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -716,6 +735,11 @@ export type UpdateContractorMutation = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -728,11 +752,6 @@ export type UpdateContractorMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -752,6 +771,11 @@ export type DeleteContractorMutation = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -764,11 +788,6 @@ export type DeleteContractorMutation = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -783,6 +802,8 @@ export type CreateServiceMutation = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -791,8 +812,6 @@ export type CreateServiceMutation = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -807,6 +826,8 @@ export type UpdateServiceMutation = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -815,8 +836,6 @@ export type UpdateServiceMutation = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -831,6 +850,8 @@ export type DeleteServiceMutation = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -839,8 +860,6 @@ export type DeleteServiceMutation = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -854,6 +873,14 @@ export type GetBookingQuery = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -867,9 +894,7 @@ export type GetBookingQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -886,7 +911,6 @@ export type GetBookingQuery = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -895,10 +919,6 @@ export type GetBookingQuery = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -916,172 +936,12 @@ export type ListBookingsQuery = {
       id: string,
       date: string,
       address: string,
+      county?: string | null,
+      eircode?: string | null,
       user_id: string,
       contractor_id?: string | null,
       service_id: string,
       booking_status: BOOKING_STATUS,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetUserQueryVariables = {
-  id: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    firstname: string,
-    lastname: string,
-    email: string,
-    address: string,
-    county: string,
-    eircode: string,
-    phone: string,
-    bookings?:  {
-      __typename: "ModelBookingConnection",
-      nextToken?: string | null,
-    } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
-    items?:  Array< {
-      __typename: "User",
-      id: string,
-      firstname: string,
-      lastname: string,
-      email: string,
-      address: string,
-      county: string,
-      eircode: string,
-      phone: string,
-      gender?: GENDER | null,
-      createdAt: string,
-      updatedAt: string,
-      owner?: string | null,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetContractorQueryVariables = {
-  id: string,
-};
-
-export type GetContractorQuery = {
-  getContractor?:  {
-    __typename: "Contractor",
-    firstname: string,
-    lastname: string,
-    email: string,
-    address: string,
-    county: string,
-    eircode: string,
-    id: string,
-    image?: string | null,
-    bookings?:  {
-      __typename: "ModelBookingConnection",
-      nextToken?: string | null,
-    } | null,
-    service:  {
-      __typename: "Service",
-      name: string,
-      id: string,
-      description: string,
-      createdAt: string,
-      updatedAt: string,
-    },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListContractorsQueryVariables = {
-  filter?: ModelContractorFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListContractorsQuery = {
-  listContractors?:  {
-    __typename: "ModelContractorConnection",
-    items?:  Array< {
-      __typename: "Contractor",
-      firstname: string,
-      lastname: string,
-      email: string,
-      address: string,
-      county: string,
-      eircode: string,
-      id: string,
-      image?: string | null,
-      service_id: string,
-      gender: GENDER,
-      phone: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetServiceQueryVariables = {
-  id: string,
-};
-
-export type GetServiceQuery = {
-  getService?:  {
-    __typename: "Service",
-    name: string,
-    id: string,
-    description: string,
-    bookings?:  {
-      __typename: "ModelBookingConnection",
-      nextToken?: string | null,
-    } | null,
-    contractors?:  {
-      __typename: "ModelContractorConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListServicesQueryVariables = {
-  filter?: ModelServiceFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListServicesQuery = {
-  listServices?:  {
-    __typename: "ModelServiceConnection",
-    items?:  Array< {
-      __typename: "Service",
-      name: string,
-      id: string,
-      description: string,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1106,6 +966,8 @@ export type BookingsByUserAndDateQuery = {
       id: string,
       date: string,
       address: string,
+      county?: string | null,
+      eircode?: string | null,
       user_id: string,
       contractor_id?: string | null,
       service_id: string,
@@ -1134,9 +996,19 @@ export type BookingsByContactorAndDateQuery = {
       id: string,
       date: string,
       address: string,
+      county?: string | null,
+      eircode?: string | null,
       user_id: string,
+      user:  {
+        __typename: "User",
+        firstname: string,
+      },
       contractor_id?: string | null,
       service_id: string,
+      service:  {
+        __typename: "Service",
+        name: string,
+      },
       booking_status: BOOKING_STATUS,
       createdAt: string,
       updatedAt: string,
@@ -1162,10 +1034,72 @@ export type BookingsByServiceAndDateQuery = {
       id: string,
       date: string,
       address: string,
+      county?: string | null,
+      eircode?: string | null,
       user_id: string,
+      user:  {
+        __typename: "User",
+        firstname: string,
+      },
       contractor_id?: string | null,
       service_id: string,
+      service:  {
+        __typename: "Service",
+        name: string,
+      },
       booking_status: BOOKING_STATUS,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    id: string,
+    firstname: string,
+    lastname: string,
+    email: string,
+    address: string,
+    county: string,
+    eircode: string,
+    phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
+    bookings?:  {
+      __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items?:  Array< {
+      __typename: "User",
+      id: string,
+      firstname: string,
+      lastname: string,
+      email: string,
+      address: string,
+      county: string,
+      eircode: string,
+      phone: string,
+      gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1197,7 +1131,6 @@ export type UserByEmailQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1228,7 +1161,70 @@ export type UserByCountyAndGenderQuery = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetContractorQueryVariables = {
+  id: string,
+};
+
+export type GetContractorQuery = {
+  getContractor?:  {
+    __typename: "Contractor",
+    firstname: string,
+    lastname: string,
+    email: string,
+    address: string,
+    county: string,
+    eircode: string,
+    id: string,
+    image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
+    bookings?:  {
+      __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+    service:  {
+      __typename: "Service",
+      name: string,
+      id: string,
+      description: string,
+      createdAt: string,
+      updatedAt: string,
+    },
+  } | null,
+};
+
+export type ListContractorsQueryVariables = {
+  filter?: ModelContractorFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListContractorsQuery = {
+  listContractors?:  {
+    __typename: "ModelContractorConnection",
+    items?:  Array< {
+      __typename: "Contractor",
+      firstname: string,
+      lastname: string,
+      email: string,
+      address: string,
+      county: string,
+      eircode: string,
+      id: string,
+      image?: string | null,
+      service_id: string,
+      gender: GENDER,
+      phone: string,
+      createdAt: string,
+      updatedAt: string,
     } | null > | null,
     nextToken?: string | null,
   } | null,
@@ -1360,12 +1356,64 @@ export type UserByGenderQuery = {
   } | null,
 };
 
+export type GetServiceQueryVariables = {
+  id: string,
+};
+
+export type GetServiceQuery = {
+  getService?:  {
+    __typename: "Service",
+    name: string,
+    id: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    bookings?:  {
+      __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+    contractors?:  {
+      __typename: "ModelContractorConnection",
+      nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type ListServicesQueryVariables = {
+  filter?: ModelServiceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListServicesQuery = {
+  listServices?:  {
+    __typename: "ModelServiceConnection",
+    items?:  Array< {
+      __typename: "Service",
+      name: string,
+      id: string,
+      description: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type OnCreateBookingSubscription = {
   onCreateBooking?:  {
     __typename: "Booking",
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -1379,9 +1427,7 @@ export type OnCreateBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -1398,7 +1444,6 @@ export type OnCreateBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -1407,10 +1452,6 @@ export type OnCreateBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1420,6 +1461,14 @@ export type OnUpdateBookingSubscription = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -1433,9 +1482,7 @@ export type OnUpdateBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -1452,7 +1499,6 @@ export type OnUpdateBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -1461,10 +1507,6 @@ export type OnUpdateBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1474,6 +1516,14 @@ export type OnDeleteBookingSubscription = {
     id: string,
     date: string,
     address: string,
+    county?: string | null,
+    eircode?: string | null,
+    user_id: string,
+    contractor_id?: string | null,
+    service_id: string,
+    booking_status: BOOKING_STATUS,
+    createdAt: string,
+    updatedAt: string,
     user:  {
       __typename: "User",
       id: string,
@@ -1487,9 +1537,7 @@ export type OnDeleteBookingSubscription = {
       gender?: GENDER | null,
       createdAt: string,
       updatedAt: string,
-      owner?: string | null,
     },
-    user_id: string,
     contractor?:  {
       __typename: "Contractor",
       firstname: string,
@@ -1506,7 +1554,6 @@ export type OnDeleteBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     } | null,
-    contractor_id?: string | null,
     service:  {
       __typename: "Service",
       name: string,
@@ -1515,10 +1562,6 @@ export type OnDeleteBookingSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    booking_status: BOOKING_STATUS,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1533,14 +1576,13 @@ export type OnCreateUserSubscription = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -1555,14 +1597,13 @@ export type OnUpdateUserSubscription = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -1577,14 +1618,13 @@ export type OnDeleteUserSubscription = {
     county: string,
     eircode: string,
     phone: string,
+    gender?: GENDER | null,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
-    gender?: GENDER | null,
-    createdAt: string,
-    updatedAt: string,
-    owner?: string | null,
   } | null,
 };
 
@@ -1599,6 +1639,11 @@ export type OnCreateContractorSubscription = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1611,11 +1656,6 @@ export type OnCreateContractorSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1630,6 +1670,11 @@ export type OnUpdateContractorSubscription = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1642,11 +1687,6 @@ export type OnUpdateContractorSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1661,6 +1701,11 @@ export type OnDeleteContractorSubscription = {
     eircode: string,
     id: string,
     image?: string | null,
+    service_id: string,
+    gender: GENDER,
+    phone: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1673,11 +1718,6 @@ export type OnDeleteContractorSubscription = {
       createdAt: string,
       updatedAt: string,
     },
-    service_id: string,
-    gender: GENDER,
-    phone: string,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1687,6 +1727,8 @@ export type OnCreateServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1695,8 +1737,6 @@ export type OnCreateServiceSubscription = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1706,6 +1746,8 @@ export type OnUpdateServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1714,8 +1756,6 @@ export type OnUpdateServiceSubscription = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
 
@@ -1725,6 +1765,8 @@ export type OnDeleteServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    createdAt: string,
+    updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
@@ -1733,7 +1775,5 @@ export type OnDeleteServiceSubscription = {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
     } | null,
-    createdAt: string,
-    updatedAt: string,
   } | null,
 };
