@@ -81,24 +81,40 @@ export const getServiceBookings = async ({
   return (await res).data["bookingsByServiceAndDate"].items;
 };
 
+// export const createBooking = async ({
+//   authToken,
+//   newBooking,
+// }: {
+//   newBooking: Booking;
+//   authToken?;
+// }) => {
+//   console.log("new booking", newBooking);
+//   const res = API.graphql(
+//     graphqlOperation(createBookingQuery, {
+//       input: {
+//         ...newBooking,
+//         booking_status: BOOKING_STATUS.UNASSIGNED,
+//         user_id: "user_1@g.com",
+//       },
+//     })
+//   ) as Promise<GraphQLResult<GraphQueryResult<Booking>>>;
+//   return (await res).data["createBooking"];
+// };
+
 export const createBooking = async ({
   authToken,
   newBooking,
 }: {
-  newBooking: Booking;
   authToken?;
+  newBooking: Booking;
 }) => {
-  console.log("new booking", newBooking);
-  const res = API.graphql(
-    graphqlOperation(createBookingQuery, {
-      input: {
-        ...newBooking,
-        booking_status: BOOKING_STATUS.UNASSIGNED,
-        user_id: "user_1@g.com",
-      },
-    })
-  ) as Promise<GraphQLResult<GraphQueryResult<Booking>>>;
-  return (await res).data["createBooking"];
+  const res = await restRequest(
+    "post",
+    "bookingsRestApi",
+    `/bookings/create`,
+    newBooking
+  );
+  return res;
 };
 
 export const updateBooking = async ({

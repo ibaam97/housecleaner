@@ -2,6 +2,7 @@ const ROUTES = {
   UserRegistration: "/user/registration",
   UserSignIn: "/user/signin",
   ContractorRegistration: "/contractor/registration",
+  ContractorSignUp: "/user/signin",
   LandingScreen: "/",
   UserDashboard: "/user/dashboard",
   ContractorDashboard: "/contractor/dashboard",

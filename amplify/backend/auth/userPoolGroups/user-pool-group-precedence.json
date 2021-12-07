@@ -1,14 +1,14 @@
 [
-  {
-    "groupName": "User",
-    "precedence": 1
-  },
-  {
-    "groupName": "Contractor",
-    "precedence": 2
-  },
-  {
-    "groupName": "Admin",
-    "precedence": 3
-  }
+    {
+        "groupName": "User",
+        "precedence": 1
+    },
+    {
+        "groupName": "Contractor",
+        "precedence": 2
+    },
+    {
+        "groupName": "Admin",
+        "precedence": 3
+    }
 ]

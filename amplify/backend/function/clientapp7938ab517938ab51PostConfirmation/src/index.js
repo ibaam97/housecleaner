@@ -1,12 +1,4 @@
-/* Amplify Params - DO NOT EDIT
-	API_BOOKINGSRESTAPI_APIID
-	API_BOOKINGSRESTAPI_APINAME
-	API_CLIENTAPP_GRAPHQLAPIENDPOINTOUTPUT
-	API_CLIENTAPP_GRAPHQLAPIIDOUTPUT
-	API_CLIENTAPP_GRAPHQLAPIKEYOUTPUT
-	ENV
-	REGION
-Amplify Params - DO NOT EDIT *//**
+/**
  * @fileoverview
  *
  * This CloudFormation Trigger creates a handler which awaits the other handlers

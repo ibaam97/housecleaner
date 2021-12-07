@@ -17,12 +17,12 @@ Amplify Params - DO NOT EDIT */
 const express = require("express");
 const bodyParser = require("body-parser");
 const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
-const axios = require("axios");
-const gql = require("graphql-tag");
 const graphql = require("graphql");
-const { bookingsByServiceAndDate } = require("./services/graphql/queries");
-const { getBooking, updateBooking } = require("./services/api/bookings");
-const { print } = graphql;
+const {
+  getBooking,
+  updateBooking,
+  createBooking,
+} = require("./services/api/bookings");
 
 // declare a new express app
 var app = express();
@@ -40,44 +40,60 @@ app.use(function (req, res, next) {
  * Example get method *
  **********************/
 
-app.get("/bookings", function (req, res) {
+app.post("/bookings/create", function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
-  res.json({ success: "get call succeed!", url: user });
+  console.log(user);
+  if (!user) return res.json({ message: user });
+  const newBooking = {
+    ...req.body,
+    user_id: user.email,
+  };
+  const createdBooking = await createBooking(newBooking);
+  return res.json(createdBooking);
 });
 
 app.get("/bookings/:id/accept", async function (req, res) {
-    /* code */
+  /* code */
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
-  console.log(user)
-  if (!(user)) return res.json({message: user});
+  console.log(user);
+  if (!user) return res.json({ message: user });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
   if (!booking) return res.status("400");
-  const updatedBooking = await updateBooking(bookingId, { contractor_id: user.email, booking_status: "ASSIGNED" });
+  const updatedBooking = await updateBooking(bookingId, {
+    contractor_id: user.email,
+    booking_status: "ASSIGNED",
+  });
   return res.json(updatedBooking);
-})
+});
 
 app.get("/bookings/:id/checkin", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
-  console.log(user)
-  if (!(user)) return res.json({message: user});
+  console.log(user);
+  if (!user) return res.json({ message: user });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
-  if (!booking ) return res.status("400");
-  const updatedBooking = await updateBooking(bookingId, { booking_status: "ONGOING", checkin_time: Date.now().toString() });
+  if (!booking) return res.status("400");
+  const updatedBooking = await updateBooking(bookingId, {
+    booking_status: "ONGOING",
+    checkin_time: Date.now().toString(),
+  });
   return res.json(updatedBooking);
-})
+});
 
 app.get("/bookings/:id/checkout", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
-  console.log(user)
-  if (!(user)) return res.json({message: user});
+  console.log(user);
+  if (!user) return res.json({ message: user });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
-  if (!booking ) return res.status("400");
-  const updatedBooking = await updateBooking(bookingId, { booking_status: "COMPLETE", checkout_time: Date.now().toString() });
+  if (!booking) return res.status("400");
+  const updatedBooking = await updateBooking(bookingId, {
+    booking_status: "COMPLETE",
+    checkout_time: Date.now().toString(),
+  });
   return res.json(updatedBooking);
-})
+});
 /****************************
  * Example post method *
  ****************************/

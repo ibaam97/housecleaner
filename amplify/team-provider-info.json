@@ -19,7 +19,7 @@
         "clientapp4182a555PostConfirmation": {
           "GROUP": "User",
           "deploymentBucketName": "amplify-clientapp-dev-173302-deployment",
-          "s3Key": "amplify-builds/clientapp4182a555PostConfirmation-396c5052672b68437277-build.zip"
+          "s3Key": "amplify-builds/clientapp4182a555PostConfirmation-682f52767a342f4a306b-build.zip"
         },
         "AdminQueries55dab482": {
           "deploymentBucketName": "amplify-clientapp-dev-173302-deployment",
@@ -31,7 +31,7 @@
         },
         "bookingsRestApiFunction": {
           "deploymentBucketName": "amplify-clientapp-dev-173302-deployment",
-          "s3Key": "amplify-builds/bookingsRestApiFunction-417864484c5a59616146-build.zip"
+          "s3Key": "amplify-builds/bookingsRestApiFunction-39624a44523447636e4b-build.zip"
         }
       }
     }

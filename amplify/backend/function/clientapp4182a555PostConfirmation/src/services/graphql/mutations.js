@@ -396,6 +396,7 @@ const deleteService = gql`
 `;
 
 module.exports = {
-  createBooking,
+  createUser,
   updateBooking,
+  createBooking,
 };

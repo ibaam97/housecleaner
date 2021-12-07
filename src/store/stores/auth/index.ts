@@ -46,8 +46,8 @@ export const AuthStore = types
       gender,
       phone,
       password,
-      type
-    }: UserRegistrationValues ) {
+      type,
+    }: UserRegistrationValues) {
       try {
         const resp = yield Auth.signUp({
           username: email,
@@ -59,7 +59,9 @@ export const AuthStore = types
             family_name: lastname,
             name: firstname,
             gender: gender,
-            "custom:type": type
+            "custom:type": type,
+            // "custom:county": county,
+            // "custom:eircode": eircode,
           },
         });
         // yield setToken(`Bearer ${token}`);
@@ -81,7 +83,6 @@ export const AuthStore = types
         console.log(`error`, error);
         throw error;
       }
-
     }),
     getUserProfile: flow(function* () {
       try {

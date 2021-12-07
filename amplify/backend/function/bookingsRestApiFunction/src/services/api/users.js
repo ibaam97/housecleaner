@@ -7,3 +7,4 @@ const getBooking = async (id) => {
 };
 
 module.exports = { getBooking };
+ 

@@ -24,13 +24,24 @@
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+        "address",
+        "family_name",
+        "gender",
+        "name",
+        "phone_number",
         "email"
     ],
     "userpoolClientReadAttributes": [
-        "email"
+        "address",
+        "email",
+        "family_name",
+        "middle_name",
+        "gender",
+        "name",
+        "phone_number"
     ],
     "userpoolClientLambdaRole": "client4182a555_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
+    "userpoolClientSetAttributes": true,
     "sharedId": "4182a555",
     "resourceName": "clientapp4182a555",
     "authSelections": "identityPoolAndUserPool",
@@ -68,7 +79,6 @@
             ]
         }
     ],
-    "thirdPartyAuth": false,
     "userPoolGroups": true,
     "adminQueries": true,
     "triggers": "{\n  \"PostConfirmation\": [\n    \"add-to-group\"\n  ]\n}",
@@ -82,5 +92,6 @@
     "permissions": [
         "{\n  \"policyName\": \"AddToGroupCognito\",\n  \"trigger\": \"PostConfirmation\",\n  \"effect\": \"Allow\",\n  \"actions\": [\n    \"cognito-idp:AdminAddUserToGroup\",\n    \"cognito-idp:GetGroup\",\n    \"cognito-idp:CreateGroup\"\n  ],\n  \"resource\": {\n    \"paramType\": \"!GetAtt\",\n    \"keys\": [\n      \"UserPool\",\n      \"Arn\"\n    ]\n  }\n}"
     ],
-    "authProviders": []
+    "authProviders": [],
+    "thirdPartyAuth": false
 }
