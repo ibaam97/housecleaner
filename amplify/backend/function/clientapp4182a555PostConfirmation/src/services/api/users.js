@@ -1,5 +1,5 @@
 const { queryClientApi } = require("./config");
-const { createUser: createUserQuery } = require("../graphql/mutations");
+const { createUser: createUserQuery, createContractor: createContractorQuery  } = require("../graphql/mutations");
 
 const createUser = async (id, data) => {
   return (
@@ -12,4 +12,15 @@ const createUser = async (id, data) => {
   ).data;
 };
 
-module.exports = { createUser };
+const createContractor = async (id, data) => {
+  return (
+      await queryClientApi(createContractorQuery, {
+      input: {
+        id,
+        ...data
+      },
+    })
+  ).data;
+};
+
+module.exports = { createUser, createContractor };

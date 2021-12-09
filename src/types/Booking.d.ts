@@ -13,5 +13,7 @@ type Booking = {
   contractor?: Contractor;
   service?: Service;
   service_id?: Id;
-  booking_status?: BOOKING_STATUS
+  booking_status?: BOOKING_STATUS;
+  checkin_time?: string;
+  checkout_time?: string;
 } & Address;

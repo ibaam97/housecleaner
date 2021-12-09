@@ -4,10 +4,13 @@ import Section from "@UIComponents/layout/Section";
 import { observer } from "mobx-react";
 import * as React from "react";
 import { useRootStore } from "store";
+import { Booking } from "types/Booking";
 
 export interface IUserBookingsProps {}
 
 export function UserBookings(props: IUserBookingsProps) {
+
+  const [userBookings, setUserBookings] = React.useState<Booking[]>([])
   const {
     bookingsStore: { getUserBookings, bookings },
   } = useRootStore();
@@ -16,6 +19,7 @@ export function UserBookings(props: IUserBookingsProps) {
     (async () => {
       try {
         const res = await getUserBookings({});
+        setUserBookings(res)
       } catch (error) {
         console.log(error);
       }

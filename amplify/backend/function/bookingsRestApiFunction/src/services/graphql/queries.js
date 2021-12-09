@@ -34,7 +34,6 @@ const getBooking = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -133,8 +132,7 @@ const getContractor = gql`
       address
       county
       eircode
-      id
-      image
+      i
       bookings {
         nextToken
       }
@@ -168,7 +166,6 @@ const listContractors = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -405,7 +402,6 @@ const contractorByEmail = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -441,7 +437,6 @@ const contractorByServiceAndCounty = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -477,7 +472,6 @@ const contractorByServiceAndCountyAndGender = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -511,7 +505,6 @@ const userByGender = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone

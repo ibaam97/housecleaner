@@ -251,7 +251,6 @@ const createContractor = gql`
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -399,4 +398,5 @@ module.exports = {
   createUser,
   updateBooking,
   createBooking,
+  createContractor
 };

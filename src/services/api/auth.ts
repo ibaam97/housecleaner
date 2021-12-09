@@ -17,6 +17,11 @@ export const getUserProfile = () => {
 
 export const getUserAttributes = async () => {
   const user = await Auth.currentAuthenticatedUser();
+  return user.attributes
+};
+
+export const getCurrentUser = async () => {
+  const user = await Auth.currentAuthenticatedUser();
   return user
 };
 

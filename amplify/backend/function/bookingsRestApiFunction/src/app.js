@@ -40,13 +40,14 @@ app.use(function (req, res, next) {
  * Example get method *
  **********************/
 
-app.post("/bookings/create", function (req, res) {
+app.post("/bookings/create", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
   console.log(user);
   if (!user) return res.json({ message: user });
   const newBooking = {
     ...req.body,
     user_id: user.email,
+    booking_status: "UNASSIGNED"
   };
   const createdBooking = await createBooking(newBooking);
   return res.json(createdBooking);
@@ -89,7 +90,7 @@ app.get("/bookings/:id/checkout", async function (req, res) {
   const booking = await getBooking(bookingId);
   if (!booking) return res.status("400");
   const updatedBooking = await updateBooking(bookingId, {
-    booking_status: "COMPLETE",
+    booking_status: "COMPLETED",
     checkout_time: Date.now().toString(),
   });
   return res.json(updatedBooking);

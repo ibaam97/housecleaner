@@ -1,5 +1,5 @@
 /* eslint-disable-line */ const aws = require("aws-sdk");
-const { createUser } = require("./services/api/users");
+const { createUser, createContractor } = require("./services/api/users");
 const USER_TYPES = require("./USER_TYPES");
 
 const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider({
@@ -7,19 +7,22 @@ const cognitoidentityserviceprovider = new aws.CognitoIdentityServiceProvider({
 });
 
 exports.handler = async (event) => {
+  console.log(event);
+
   const {
     email,
     "custom:type": type,
     address,
     "custom:county": county,
     "custom:eircode": eircode,
-    name,
+    "custom:service_id": service_id,
+    gender,
     family_name: lastname,
     name: firstname,
     phone_number: phone,
   } = event.request.userAttributes;
 
-  const userGroup = USER_TYPES[userAttributes["custom:type"]];
+  const userGroup = USER_TYPES[type];
 
   if (!userGroup) throw "User type invalid.";
 
@@ -34,19 +37,51 @@ exports.handler = async (event) => {
     Username: event.userName,
   };
 
-  const res = await createUser(userAttributes.email, {
-    type: userGroup,
-    name,
+  let res
+
+  console.log({
+    firstname,
+    lastname,
     email,
     id: email,
     address,
     county,
     eircode,
+    gender,
     phone,
-  });
+    service_id
+  })
+
+  if (userGroup === USER_TYPES.Contractor) {
+    res = await createContractor(email, {
+      firstname,
+      lastname,
+      email,
+      id: email,
+      address,
+      county,
+      eircode,
+      gender,
+      phone,
+      service_id
+    });
+  }
+
+  if (userGroup === USER_TYPES.User) {
+    res = await createUser(email, {
+      firstname,
+      lastname,
+      email,
+      id: email,
+      address,
+      county,
+      eircode,
+      phone,
+    });
+  }
 
   console.log("rescreated", res);
-  
+
   /**
    * Check if the group exists; if it doesn't, create it.
    */

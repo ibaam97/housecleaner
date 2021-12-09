@@ -5,17 +5,18 @@ import {
   bookingsByServiceAndDate,
   bookingsByUserAndDate,
   listBookings,
-} from "graphql/queries";
+} from "@services/graphql/queries";
 import {
   createBooking as createBookingQuery,
   updateBooking as updateBookingQuery,
-} from "graphql/mutations";
+} from "@services/graphql/mutations";
 import { Booking } from "types/Booking";
 import ListGraphQueryResult from "@interfaces/ListGraphQueryResult";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
 import GraphQueryResult from "@interfaces/GraphQueryResult";
 import BOOKING_STATUS from "@enums/BOOKING_STATUS.enum";
 import { restRequest } from "./config";
+import { getUserAttributes } from "./auth";
 
 export const getBookings = async ({
   authToken,
@@ -42,7 +43,7 @@ export const getUserBookings = async ({
 }) => {
   const res = API.graphql(
     graphqlOperation(bookingsByUserAndDate, {
-      user_id: "user_1@g.com",
+      user_id: (await getUserAttributes()).email,
       filters,
     })
   ) as Promise<GraphQLResult<ListGraphQueryResult<Booking>>>;

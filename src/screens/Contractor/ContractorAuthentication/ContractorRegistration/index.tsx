@@ -6,16 +6,21 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { ContractorRegistrationValues } from "./ContractorRegistrationValues";
 import * as React from "react";
 import { Routes, useNavigate } from "react-router-dom";
-import ContractorRegistrationSchema from "@schemas/userRegistrationSchema";
+import ContractorRegistrationSchema from "@schemas/contractorRegistrationSchema";
 import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
 import FormSelect from "@UIComponents/form/FormSelect";
 import services from "@testdata/services";
 import ROUTES from "@constants/ROUTES";
+import { useRootStore } from "store";
+import GENDER from "@enums/GENDER";
+import USER_TYPE from "@enums/USER_TYPE.enum";
 
 export interface IContractorRegistrationProps {}
 
 export function ContractorRegistration(props: IContractorRegistrationProps) {
   const navigate = useNavigate();
+
+  const { authStore } = useRootStore();
 
   const initialValues: ContractorRegistrationValues = {
     county: "",
@@ -23,8 +28,11 @@ export function ContractorRegistration(props: IContractorRegistrationProps) {
     eircode: "",
     firstname: "",
     lastname: "",
-    service_id: services[0].id,
+    password: "",
     address: "",
+    phone: "",
+    gender: GENDER.Male,
+    service_id: "",
   };
 
   const onSubmit = async (
@@ -32,7 +40,8 @@ export function ContractorRegistration(props: IContractorRegistrationProps) {
     actions: FormikHelpers<ContractorRegistrationValues>
   ) => {
     try {
-      navigate(ROUTES.ContractorVerifyUser);
+      await authStore.signUpContractor({ ...values, type: USER_TYPE.Contractor });
+      navigate(ROUTES.getVerifyUser(values.email));
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {
@@ -73,11 +82,25 @@ export function ContractorRegistration(props: IContractorRegistrationProps) {
                   errors={errors.email}
                 />
                 <FormInput
-                  name="eircode"
-                  placeholder="eircode"
+                  name="phone"
+                  placeholder="phone"
                   onChange={handleChange}
-                  value={values.eircode}
-                  errors={errors.eircode}
+                  value={values.phone}
+                  errors={errors.phone}
+                />
+                <FormInput
+                  name="gender"
+                  placeholder="gender"
+                  onChange={handleChange}
+                  value={values.gender}
+                  errors={errors.gender}
+                />
+                                <FormInput
+                  name="address"
+                  placeholder="address"
+                  onChange={handleChange}
+                  value={values.address}
+                  errors={errors.address}
                 />
                 <FormInput
                   name="county"
@@ -87,20 +110,28 @@ export function ContractorRegistration(props: IContractorRegistrationProps) {
                   errors={errors.county}
                 />
                 <FormInput
-                  name="address"
-                  placeholder="address"
+                  name="eircode"
+                  placeholder="eircode"
                   onChange={handleChange}
-                  value={values.address}
-                  errors={errors.address}
+                  value={values.eircode}
+                  errors={errors.eircode}
                 />
                 <FormSelect
-                  name="name"
+                  name="service_id"
                   options={services.map(({ name, id }) => ({
                     value: id,
                     title: name,
                   }))}
                   value={values.service_id}
                   onChange={handleChange}
+                />
+                <FormInput
+                  name="password"
+                  placeholder="password"
+                  onChange={handleChange}
+                  value={values.password}
+                  errors={errors.password}
+                  type="password"
                 />
                 <ButtonDefault type="submit">Submit</ButtonDefault>
                 {Object.values(errors)}

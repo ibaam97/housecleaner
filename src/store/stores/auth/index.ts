@@ -1,10 +1,14 @@
+import { ContractorRegistrationValues } from "@screens/Contractor/ContractorAuthentication/ContractorRegistration/ContractorRegistrationValues";
+import { UserChangePasswordValues } from "@screens/User/UserAuthentication/UserChangePassword/UserChangePasswordValues";
 import { UserRegistrationValues } from "@screens/User/UserAuthentication/UserRegistration/UserRegistrationValues";
 import { UserSignInValues } from "@screens/User/UserAuthentication/UserSignIn/UserSignInValues";
+import { UserSettingsValues } from "@screens/User/UserDashboard/UserSettings/UserSettingsPage/UserSettingsValues";
 import { getUser } from "@services/api/users";
 import { Auth } from "aws-amplify";
+import addDefinedPropsToObject from "helpers/addDefinedPropsToObject";
 import { GenericAxiosResponse } from "interfaces/api";
 import { flow, types } from "mobx-state-tree";
-import { getUserProfile, setToken, signIn } from "services/api";
+import { getCurrentUser, getUserAttributes, getUserProfile, setToken, signIn } from "services/api";
 import { User } from "./auth";
 
 /**
@@ -36,7 +40,7 @@ export const AuthStore = types
     },
   }))
   .actions((self) => ({
-    signUp: flow(function* ({
+    signUpUser: flow(function* ({
       email,
       firstname,
       lastname,
@@ -60,8 +64,48 @@ export const AuthStore = types
             name: firstname,
             gender: gender,
             "custom:type": type,
-            // "custom:county": county,
-            // "custom:eircode": eircode,
+            "custom:county": county,
+            "custom:eircode": eircode,
+          },
+        });
+        // yield setToken(`Bearer ${token}`);
+        // localStorage.setItem("token", token);
+        // self.token = token;
+        return resp;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+      return self.token;
+    }),
+    signUpContractor: flow(function* ({
+      email,
+      firstname,
+      lastname,
+      county,
+      eircode,
+      address,
+      gender,
+      phone,
+      password,
+      type,
+      service_id
+    }: ContractorRegistrationValues) {
+      try {
+        const resp = yield Auth.signUp({
+          username: email,
+          password,
+          attributes: {
+            email,
+            phone_number: phone,
+            address,
+            family_name: lastname,
+            name: firstname,
+            gender: gender,
+            "custom:type": type,
+            "custom:county": county,
+            "custom:eircode": eircode,
+            "custom:service_id": service_id,
           },
         });
         // yield setToken(`Bearer ${token}`);
@@ -81,6 +125,58 @@ export const AuthStore = types
         return user;
       } catch (error) {
         console.log(`error`, error);
+        throw error;
+      }
+    }),
+    updateUser: flow(function* ({
+      email,
+      firstname,
+      lastname,
+      county,
+      eircode,
+      address,
+      gender,
+      phone,
+      type,
+      service_id
+    }: UserSettingsValues) {
+      try {
+        const  user = yield getCurrentUser()
+        const resp = yield Auth.updateUserAttributes(user, addDefinedPropsToObject({
+          email,
+          phone_number: phone,
+          address,
+          family_name: lastname,
+          name: firstname,
+          gender: gender,
+          "custom:type": type,
+          "custom:county": county,
+          "custom:eircode": eircode,
+          "custom:service_id": service_id,
+        }))
+        
+        // yield setToken(`Bearer ${token}`);
+        // localStorage.setItem("token", token);
+        // self.token = token;
+        return resp;
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }),
+    changePassword: flow(function* ({
+      oldPassword, newPassword
+    }: UserChangePasswordValues) {
+      try {
+        const  user = yield getCurrentUser()
+        const resp = yield Auth.changePassword(user, oldPassword, newPassword)
+        
+        // yield setToken(`Bearer ${token}`);
+        // localStorage.setItem("token", token);
+        // self.token = token;
+        return resp;
+      } catch (error) {
+        console.log(error);
         throw error;
       }
     }),

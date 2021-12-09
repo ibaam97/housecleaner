@@ -34,21 +34,6 @@ const createBooking = gql`
         createdAt
         updatedAt
       }
-      contractor {
-        firstname
-        lastname
-        email
-        address
-        county
-        eircode
-        id
-        image
-        service_id
-        gender
-        phone
-        createdAt
-        updatedAt
-      }
       service {
         name
         id
@@ -86,21 +71,6 @@ const updateBooking = gql`
         eircode
         phone
         gender
-        createdAt
-        updatedAt
-      }
-      contractor {
-        firstname
-        lastname
-        email
-        address
-        county
-        eircode
-        id
-        image
-        service_id
-        gender
-        phone
         createdAt
         updatedAt
       }
@@ -152,7 +122,6 @@ const deleteBooking = gql`
         county
         eircode
         id
-        image
         service_id
         gender
         phone

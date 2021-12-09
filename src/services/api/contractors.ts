@@ -3,11 +3,11 @@ import { API, graphqlOperation } from "aws-amplify";
 import {
   contractorByServiceAndCountyAndGender,
   listContractors,
-} from "graphql/queries";
+} from "@services/graphql/queries";
 import {
   createContractor as createContractorQuery,
   updateContractor as updateContractorQuery,
-} from "graphql/mutations";
+} from "@services/graphql/mutations";
 import Contractor from "types/Contractor";
 
 export const getContractor = ({

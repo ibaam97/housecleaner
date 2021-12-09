@@ -14,6 +14,8 @@ export const getBooking = /* GraphQL */ `
       contractor_id
       service_id
       booking_status
+      checkin_time
+      checkout_time
       createdAt
       updatedAt
       user {
@@ -37,7 +39,6 @@ export const getBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -68,15 +69,11 @@ export const listBookings = /* GraphQL */ `
         county
         eircode
         user_id
-        user {
-          firstname
-        }
         contractor_id
-        # contractor {
-        #   name
-        # }
         service_id
         booking_status
+        checkin_time
+        checkout_time
         createdAt
         updatedAt
       }
@@ -111,6 +108,8 @@ export const bookingsByUserAndDate = /* GraphQL */ `
         contractor_id
         service_id
         booking_status
+        checkin_time
+        checkout_time
         createdAt
         updatedAt
       }
@@ -142,15 +141,11 @@ export const bookingsByContactorAndDate = /* GraphQL */ `
         county
         eircode
         user_id
-        user {
-          firstname
-        }
         contractor_id
         service_id
-        service {
-          name
-        }
         booking_status
+        checkin_time
+        checkout_time
         createdAt
         updatedAt
       }
@@ -182,15 +177,11 @@ export const bookingsByServiceAndDate = /* GraphQL */ `
         county
         eircode
         user_id
-        user {
-          firstname
-        }
         contractor_id
         service_id
-        service {
-          name
-        }
         booking_status
+        checkin_time
+        checkout_time
         createdAt
         updatedAt
       }
@@ -318,7 +309,6 @@ export const getContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -352,7 +342,6 @@ export const listContractors = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -386,7 +375,6 @@ export const contractorByEmail = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -422,7 +410,6 @@ export const contractorByServiceAndCounty = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -458,7 +445,6 @@ export const contractorByServiceAndCountyAndGender = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -492,7 +478,6 @@ export const userByGender = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone

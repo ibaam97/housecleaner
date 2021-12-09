@@ -37,8 +37,8 @@ export function UserRegistration(props: IUserRegistrationProps) {
     actions: FormikHelpers<UserRegistrationValues>
   ) => {
     try {
-      await authStore.signUp({...values, type: USER_TYPE.Admin});
-      navigate(ROUTES.UserVerifyUser);
+      await authStore.signUpUser({...values, type: USER_TYPE.User});
+      navigate(ROUTES.getVerifyUser(values.email));
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

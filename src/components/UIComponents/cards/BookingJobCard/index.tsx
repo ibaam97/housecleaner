@@ -11,6 +11,8 @@ import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
 import { Badge, Divider } from "antd";
 import BOOKING_STATUS from "@enums/BOOKING_STATUS.enum";
 import TextPulse from "@UIComponents/TextPulse";
+import DateFns from "date-fns";
+import { formattedTime } from "helpers/formatDate";
 
 export interface IBookingJobsCardProps {
   booking: Booking;
@@ -26,7 +28,42 @@ export function BookingJobsCard({
   onClick,
   ...props
 }: IBookingJobsCardProps) {
-  const { service, address, date, user, id } = booking;
+  const {
+    service,
+    address,
+    date,
+    user,
+    id,
+    checkin_time,
+    checkout_time,
+    booking_status,
+  } = booking;
+
+  const [currentDuration, setCurrentDuration] = React.useState(
+    checkin_time
+      ? (parseInt(checkout_time) || Date.now()) - parseInt(checkin_time)
+      : 0
+  );
+
+  const intervalRef = React.useRef<any>();
+
+  React.useEffect(() => {
+    if (booking_status === BOOKING_STATUS.ONGOING) {
+      intervalRef.current = setInterval(() => {
+        setCurrentDuration((currentDuration) =>
+          checkin_time ? Date.now() - parseInt(checkin_time) : 0
+        );
+      }, 1000);
+    } else if (intervalRef.current) {
+      console.log(intervalRef.current, "hello");
+      clearInterval(intervalRef.current);
+    }
+    return () => {
+      console.log("destroyed", intervalRef.current);
+      clearInterval(intervalRef.current);
+    };
+    //edit
+  }, []);
 
   return (
     <div>
@@ -37,16 +74,22 @@ export function BookingJobsCard({
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Customer</BaseText>
-          <Paragraph>{user?.firstname}</Paragraph>
+          <Paragraph>
+            {user?.firstname} {user?.lastname}
+          </Paragraph>
         </StyledField>
-        <StyledField>
+        <StyledField className="w-96">
           <BaseText fontSize="1rem">Address</BaseText>
           <Paragraph>{address}</Paragraph>
         </StyledField>
         <StyledField>
+          <BaseText fontSize="1rem">Duration</BaseText>
+          <Paragraph>{formattedTime(currentDuration)}</Paragraph>
+        </StyledField>
+        <StyledField className="mr-auto">
           <BaseText fontSize="1rem">Date</BaseText>
           <Paragraph className="w-max">
-            {format(new Date(date), "dd-mm-yy")}
+            {format(new Date(date), "dd-MM-yy")}
           </Paragraph>
         </StyledField>
 

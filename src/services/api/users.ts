@@ -4,11 +4,11 @@ import {
   getUser as getUserQuery,
   listUsers,
   userByEmail,
-} from "graphql/queries";
+} from "@services/graphql/queries";
 import {
   createUser as createUserQuery,
   updateUser as updateUserQuery,
-} from "graphql/mutations";
+} from "@services/graphql/mutations";
 import api from "./config";
 import User from "types/User";
 

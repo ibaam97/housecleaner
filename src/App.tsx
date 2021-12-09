@@ -14,6 +14,9 @@ import {
 import { UserSignIn, UserRegistration } from "@screens/User/UserAuthentication";
 import { ContractorHome } from "@screens/Contractor/ContractorDashboard";
 import ContractorRegistration from "@screens/Contractor/ContractorAuthentication/ContractorRegistration";
+import { UserVerifyUser } from "@screens/User/UserAuthentication/UserVerifyUser";
+import { ContractorVerifyUser } from "@screens/Contractor/ContractorAuthentication/ContractorVerifyUser";
+import { UserSettings } from "@screens/User/UserDashboard/UserSettings";
 // import UserBooking from "@screens/User/UserDashboard/UserBooking";
 
 Amplify.configure(awsConfig);
@@ -28,8 +31,14 @@ function App() {
             path={ROUTES.UserRegistration}
             element={<UserRegistration />}
           />
+          <Route path={ROUTES.UserVerifyUser} element={<UserVerifyUser />} />
+          <Route
+            path={ROUTES.ContractorVerifyUser}
+            element={<ContractorVerifyUser />}
+          />
           <Route path={ROUTES.UserSignIn} element={<UserSignIn />} />
           <Route path={ROUTES.UserDashboard} element={<UserHome />} />
+          <Route path={ROUTES.UserSettings} element={<UserSettings />} />
           <Route
             path={ROUTES.ContractorDashboard}
             element={<ContractorHome />}

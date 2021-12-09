@@ -1,3 +1,4 @@
+import { getUserAttributes } from "@services/api";
 import {
   checkinBooking,
   checkoutBooking,
@@ -18,14 +19,18 @@ export interface IContractorJobsProps {}
 export function ContractorJobs(props: IContractorJobsProps) {
   const [bookings, setBookings] = React.useState<Booking[]>([]);
 
+  const getCurrentBookings = async () => {
+    const res = await getContractorBookings({
+      contractor_id: (await getUserAttributes()).email,
+    });
+    console.log("res", res);
+    setBookings(res);
+  };
+
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await getContractorBookings({
-          contractor_id: "contractor_1",
-        });
-        console.log("res", res);
-        setBookings(res);
+        await getCurrentBookings();
       } catch (error) {
         console.log(error);
       }
@@ -44,12 +49,7 @@ export function ContractorJobs(props: IContractorJobsProps) {
             : await checkoutBooking({ id });
         console.log(updateRes);
 
-        const listBookingsRest = await getContractorBookings({
-          contractor_id: "contractor_1",
-        });
-
-        console.log("res", listBookingsRest);
-        setBookings(listBookingsRest);
+        await getCurrentBookings();
       }
     } catch (error) {
       console.log(error);

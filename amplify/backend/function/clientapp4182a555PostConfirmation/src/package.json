@@ -6,5 +6,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "aws-sdk": "^2.1042.0",
-    "axios": "latest"  }
+    "graphql": "^16.0.1",
+    "graphql-tag": "^2.12.6",
+    "axios": "latest"  
+  }
 }

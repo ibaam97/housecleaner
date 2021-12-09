@@ -20,20 +20,7 @@ export function ContractorHome(props: IContractorHomeProps) {
 
   useEffect(() => {
     (async () => {
-      const user = await Auth.currentAuthenticatedUser();
-      const token = user.signInUserSession.idToken.jwtToken;
-      const requestData = {
-        headers: {
-          Authorization: token,
-        },
-      };
-      // console.log(token)
-      const res = await restRequest(
-        "get",
-        "bookingsRestApi",
-        "/bookings/00c171a4-11f7-4967-9026-d514cf41a9cf"
-      );
-      console.log(res);
+
     })();
   }, []);
 

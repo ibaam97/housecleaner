@@ -1,10 +1,10 @@
 import Id from "types/Id";
 import { API, graphqlOperation } from "aws-amplify";
-import { listServices, getService as getServiceQuery } from "graphql/queries";
+import { listServices, getService as getServiceQuery } from "@services/graphql/queries";
 import {
   createService as createServiceQuery,
   updateService as updateServiceQuery,
-} from "graphql/mutations";
+} from "@services/graphql/mutations";
 import Service from "types/Service";
 
 import { GraphQLResult } from "@aws-amplify/api-graphql";

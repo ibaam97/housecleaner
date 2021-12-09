@@ -14,6 +14,8 @@ export const onCreateBooking = /* GraphQL */ `
       contractor_id
       service_id
       booking_status
+      checkin_time
+      checkout_time
       createdAt
       updatedAt
       user {
@@ -37,7 +39,6 @@ export const onCreateBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -66,6 +67,8 @@ export const onUpdateBooking = /* GraphQL */ `
       contractor_id
       service_id
       booking_status
+      checkin_time
+      checkout_time
       createdAt
       updatedAt
       user {
@@ -89,7 +92,6 @@ export const onUpdateBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -118,6 +120,8 @@ export const onDeleteBooking = /* GraphQL */ `
       contractor_id
       service_id
       booking_status
+      checkin_time
+      checkout_time
       createdAt
       updatedAt
       user {
@@ -141,7 +145,6 @@ export const onDeleteBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -228,7 +231,6 @@ export const onCreateContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -257,7 +259,6 @@ export const onUpdateContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -286,7 +287,6 @@ export const onDeleteContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
