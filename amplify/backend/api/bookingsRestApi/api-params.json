@@ -1,0 +1,36 @@
+{
+    "paths": [
+        {
+            "name": "/bookings",
+            "lambdaFunction": "bookingsRestApiFunction",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/bookings"
+        }
+    ],
+    "resourceName": "bookingsRestApi",
+    "apiName": "bookingsRestApi",
+    "functionArns": [
+        {
+            "lambdaFunction": "bookingsRestApiFunction"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-clientapp-dev-173302-authRole",
+        "unAuthRoleName": "amplify-clientapp-dev-173302-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "bookingsRestApiFunction",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "18f506da"
+}

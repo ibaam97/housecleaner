@@ -11,6 +11,19 @@ export const createBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -24,7 +37,6 @@ export const createBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -33,25 +45,34 @@ export const createBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -64,6 +85,19 @@ export const updateBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -77,7 +111,6 @@ export const updateBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -86,25 +119,34 @@ export const updateBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -117,6 +159,19 @@ export const deleteBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -130,7 +185,6 @@ export const deleteBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -139,25 +193,34 @@ export const deleteBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -175,12 +238,15 @@ export const createUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
+      bookings {
+        nextToken
+      }
+      payments {
+        nextToken
+      }
     }
   }
 `;
@@ -198,12 +264,15 @@ export const updateUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
+      bookings {
+        nextToken
+      }
+      payments {
+        nextToken
+      }
     }
   }
 `;
@@ -221,12 +290,15 @@ export const deleteUser = /* GraphQL */ `
       county
       eircode
       phone
-      bookings {
-        nextToken
-      }
       gender
       createdAt
       updatedAt
+      bookings {
+        nextToken
+      }
+      payments {
+        nextToken
+      }
     }
   }
 `;
@@ -243,7 +315,14 @@ export const createContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
+      service_id
+      gender
+      phone
+      account
+      rating
+      ratingNumber
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -251,14 +330,10 @@ export const createContractor = /* GraphQL */ `
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -275,7 +350,14 @@ export const updateContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
+      service_id
+      gender
+      phone
+      account
+      rating
+      ratingNumber
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -283,14 +365,10 @@ export const updateContractor = /* GraphQL */ `
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -307,7 +385,14 @@ export const deleteContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
+      service_id
+      gender
+      phone
+      account
+      rating
+      ratingNumber
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
@@ -315,14 +400,10 @@ export const deleteContractor = /* GraphQL */ `
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -335,14 +416,15 @@ export const createService = /* GraphQL */ `
       name
       id
       description
+      pricePerMinute
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -355,14 +437,15 @@ export const updateService = /* GraphQL */ `
       name
       id
       description
+      pricePerMinute
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -375,14 +458,123 @@ export const deleteService = /* GraphQL */ `
       name
       id
       description
+      pricePerMinute
+      createdAt
+      updatedAt
       bookings {
         nextToken
       }
       contractors {
         nextToken
       }
+    }
+  }
+`;
+export const createPayment = /* GraphQL */ `
+  mutation CreatePayment(
+    $input: CreatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    createPayment(input: $input, condition: $condition) {
+      amount
+      id
+      currency
+      date
+      user_id
+      contractor_id
+      booking_id
       createdAt
       updatedAt
+      booking {
+        id
+        date
+        address
+        county
+        eircode
+        user_id
+        contractor_id
+        service_id
+        booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const updatePayment = /* GraphQL */ `
+  mutation UpdatePayment(
+    $input: UpdatePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    updatePayment(input: $input, condition: $condition) {
+      amount
+      id
+      currency
+      date
+      user_id
+      contractor_id
+      booking_id
+      createdAt
+      updatedAt
+      booking {
+        id
+        date
+        address
+        county
+        eircode
+        user_id
+        contractor_id
+        service_id
+        booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const deletePayment = /* GraphQL */ `
+  mutation DeletePayment(
+    $input: DeletePaymentInput!
+    $condition: ModelPaymentConditionInput
+  ) {
+    deletePayment(input: $input, condition: $condition) {
+      amount
+      id
+      currency
+      date
+      user_id
+      contractor_id
+      booking_id
+      createdAt
+      updatedAt
+      booking {
+        id
+        date
+        address
+        county
+        eircode
+        user_id
+        contractor_id
+        service_id
+        booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
+        createdAt
+        updatedAt
+      }
     }
   }
 `;

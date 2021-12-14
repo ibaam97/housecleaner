@@ -11,6 +11,7 @@ import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
 import ROUTES from "@constants/ROUTES";
 import GENDER from "@enums/GENDER";
 import { useRootStore } from "store";
+import USER_TYPE from "@enums/USER_TYPE.enum";
 
 export interface IUserRegistrationProps {}
 
@@ -36,8 +37,8 @@ export function UserRegistration(props: IUserRegistrationProps) {
     actions: FormikHelpers<UserRegistrationValues>
   ) => {
     try {
-      await authStore.signUp(values);
-      navigate(ROUTES.UserDashboard);
+      await authStore.signUpUser({...values, type: USER_TYPE.User});
+      navigate(ROUTES.getVerifyUser(values.email));
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

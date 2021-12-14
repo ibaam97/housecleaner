@@ -8,6 +8,19 @@ export const getBooking = /* GraphQL */ `
       id
       date
       address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
       user {
         id
         firstname
@@ -21,7 +34,6 @@ export const getBooking = /* GraphQL */ `
         createdAt
         updatedAt
       }
-      user_id
       contractor {
         firstname
         lastname
@@ -30,25 +42,34 @@ export const getBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
-      contractor_id
       service {
         name
         id
         description
+        pricePerMinute
         createdAt
         updatedAt
       }
-      service_id
-      booking_status
-      createdAt
-      updatedAt
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
     }
   }
 `;
@@ -63,144 +84,17 @@ export const listBookings = /* GraphQL */ `
         id
         date
         address
+        county
+        eircode
         user_id
         contractor_id
         service_id
         booking_status
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getUser = /* GraphQL */ `
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      firstname
-      lastname
-      email
-      address
-      county
-      eircode
-      phone
-      bookings {
-        nextToken
-      }
-      gender
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listUsers = /* GraphQL */ `
-  query ListUsers(
-    $filter: ModelUserFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        firstname
-        lastname
-        email
-        address
-        county
-        eircode
-        phone
-        gender
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getContractor = /* GraphQL */ `
-  query GetContractor($id: ID!) {
-    getContractor(id: $id) {
-      firstname
-      lastname
-      email
-      address
-      county
-      eircode
-      id
-      image
-      bookings {
-        nextToken
-      }
-      service {
-        name
-        id
-        description
-        createdAt
-        updatedAt
-      }
-      service_id
-      gender
-      phone
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listContractors = /* GraphQL */ `
-  query ListContractors(
-    $filter: ModelContractorFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listContractors(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        firstname
-        lastname
-        email
-        address
-        county
-        eircode
-        id
-        image
-        service_id
-        gender
-        phone
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getService = /* GraphQL */ `
-  query GetService($id: ID!) {
-    getService(id: $id) {
-      name
-      id
-      description
-      bookings {
-        nextToken
-      }
-      contractors {
-        nextToken
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listServices = /* GraphQL */ `
-  query ListServices(
-    $filter: ModelServiceFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listServices(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        name
-        id
-        description
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
         createdAt
         updatedAt
       }
@@ -229,10 +123,17 @@ export const bookingsByUserAndDate = /* GraphQL */ `
         id
         date
         address
+        county
+        eircode
         user_id
         contractor_id
         service_id
         booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
         createdAt
         updatedAt
       }
@@ -261,10 +162,17 @@ export const bookingsByContactorAndDate = /* GraphQL */ `
         id
         date
         address
+        county
+        eircode
         user_id
         contractor_id
         service_id
         booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
         createdAt
         updatedAt
       }
@@ -293,10 +201,64 @@ export const bookingsByServiceAndDate = /* GraphQL */ `
         id
         date
         address
+        county
+        eircode
         user_id
         contractor_id
         service_id
         booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser($id: ID!) {
+    getUser(id: $id) {
+      id
+      firstname
+      lastname
+      email
+      address
+      county
+      eircode
+      phone
+      gender
+      createdAt
+      updatedAt
+      bookings {
+        nextToken
+      }
+      payments {
+        nextToken
+      }
+    }
+  }
+`;
+export const listUsers = /* GraphQL */ `
+  query ListUsers(
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        phone
+        gender
         createdAt
         updatedAt
       }
@@ -370,6 +332,66 @@ export const userByCountyAndGender = /* GraphQL */ `
     }
   }
 `;
+export const getContractor = /* GraphQL */ `
+  query GetContractor($id: ID!) {
+    getContractor(id: $id) {
+      firstname
+      lastname
+      email
+      address
+      county
+      eircode
+      id
+      service_id
+      gender
+      phone
+      account
+      rating
+      ratingNumber
+      createdAt
+      updatedAt
+      bookings {
+        nextToken
+      }
+      service {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listContractors = /* GraphQL */ `
+  query ListContractors(
+    $filter: ModelContractorFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listContractors(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        id
+        service_id
+        gender
+        phone
+        account
+        rating
+        ratingNumber
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const contractorByEmail = /* GraphQL */ `
   query ContractorByEmail(
     $email: String
@@ -393,10 +415,12 @@ export const contractorByEmail = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
@@ -429,10 +453,12 @@ export const contractorByServiceAndCounty = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
@@ -465,10 +491,12 @@ export const contractorByServiceAndCountyAndGender = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
         createdAt
         updatedAt
       }
@@ -499,10 +527,136 @@ export const userByGender = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
+        account
+        rating
+        ratingNumber
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getService = /* GraphQL */ `
+  query GetService($id: ID!) {
+    getService(id: $id) {
+      name
+      id
+      description
+      pricePerMinute
+      createdAt
+      updatedAt
+      bookings {
+        nextToken
+      }
+      contractors {
+        nextToken
+      }
+    }
+  }
+`;
+export const listServices = /* GraphQL */ `
+  query ListServices(
+    $filter: ModelServiceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listServices(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getPayment = /* GraphQL */ `
+  query GetPayment($id: ID!) {
+    getPayment(id: $id) {
+      amount
+      id
+      currency
+      date
+      user_id
+      contractor_id
+      booking_id
+      createdAt
+      updatedAt
+      booking {
+        id
+        date
+        address
+        county
+        eircode
+        user_id
+        contractor_id
+        service_id
+        booking_status
+        checkin_time
+        checkout_time
+        payment_id
+        comment
+        rating
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+export const listPayments = /* GraphQL */ `
+  query ListPayments(
+    $filter: ModelPaymentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPayments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const paymentsByUserAndDate = /* GraphQL */ `
+  query PaymentsByUserAndDate(
+    $user_id: ID
+    $date: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelPaymentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    paymentsByUserAndDate(
+      user_id: $user_id
+      date: $date
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
         createdAt
         updatedAt
       }

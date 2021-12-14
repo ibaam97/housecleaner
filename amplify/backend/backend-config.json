@@ -1,36 +1,12 @@
 {
   "auth": {
-    "userPoolGroups": {
-      "service": "Cognito-UserPool-Groups",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
-          "attributes": [
-            "UserPoolId",
-            "AppClientIDWeb",
-            "AppClientID"
-          ]
-        }
-      ]
-    },
-    "clientapp53b23a2153b23a21": {
+    "clientapp4182a555": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "clientapp53b23a2153b23a21PostConfirmation",
-          "triggerProvider": "Cognito",
-          "attributes": [
-            "Arn",
-            "Name"
-          ]
-        },
-        {
-          "category": "function",
-          "resourceName": "clientapp53b23a2153b23a21PreSignup",
+          "resourceName": "clientapp4182a555PostConfirmation",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -44,14 +20,10 @@
           "EMAIL"
         ],
         "signupAttributes": [
-          "ADDRESS",
-          "EMAIL",
-          "GENDER",
-          "NAME",
-          "PHONE_NUMBER"
+          "EMAIL"
         ],
         "passwordProtectionSettings": {
-          "passwordPolicyMinLength": "6",
+          "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": []
         },
         "mfaConfiguration": "OFF",
@@ -62,10 +34,26 @@
           "EMAIL"
         ]
       }
+    },
+    "userPoolGroups": {
+      "service": "Cognito-UserPool-Groups",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "clientapp4182a555",
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ]
+        }
+      ]
     }
   },
   "api": {
-    "nannyHouseApi": {
+    "clientapp": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -73,10 +61,21 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authclientapp4c6edb44"
+              "userPoolId": "authclientapp4182a555"
             }
           },
-          "additionalAuthenticationProviders": []
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "API_KEY",
+              "apiKeyConfig": {
+                "apiKeyExpirationDays": 60,
+                "description": "bookingsApiKey"
+              }
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ]
         }
       }
     },
@@ -87,46 +86,160 @@
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
+          "resourceName": "clientapp4182a555",
           "attributes": [
             "UserPoolId"
           ]
         },
         {
           "category": "function",
-          "resourceName": "AdminQueries2e63f42b",
+          "resourceName": "AdminQueries55dab482",
           "attributes": [
             "Arn",
             "Name"
           ]
         }
       ]
+    },
+    "bookingsRestApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "bookingsRestApiFunction",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "paymentsApi": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "paymentsApi",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "function": {
-    "clientapp53b23a2153b23a21PostConfirmation": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "clientapp53b23a2153b23a21PreSignup": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "AdminQueries2e63f42b": {
+    "AdminQueries55dab482": {
       "service": "Lambda",
       "providerPlugin": "awscloudformation",
       "build": true,
       "dependsOn": [
         {
           "category": "auth",
-          "resourceName": "clientapp53b23a2153b23a21",
+          "resourceName": "clientapp4182a555",
           "attributes": [
             "UserPoolId"
           ]
         }
       ]
+    },
+    "clientapp4182a555PostConfirmation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "clientapp",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "bookingsRestApi",
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ]
+        }
+      ]
+    },
+    "clientappd60c3fce": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bookingsRestApiFunction": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "clientapp",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
+    },
+    "paymentsApi": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "clientapp4182a555",
+          "attributes": [
+            "UserPoolId"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "clientapp",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        },
+        {
+          "category": "api",
+          "resourceName": "bookingsRestApi",
+          "attributes": [
+            "ApiName",
+            "ApiId"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "AdminQueries55dab482",
+          "attributes": [
+            "Name"
+          ]
+        },
+        {
+          "category": "function",
+          "resourceName": "bookingsRestApiFunction",
+          "attributes": [
+            "Name"
+          ]
+        }
+      ]
+    }
+  },
+  "storage": {
+    "bookingsTable": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   }
 }

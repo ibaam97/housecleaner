@@ -1,5 +1,7 @@
 import ROUTES from "@constants/ROUTES";
+import USER_TYPE from "@enums/USER_TYPE.enum";
 import { Menu } from "antd";
+import { observer } from "mobx-react";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRootStore } from "store";
@@ -7,27 +9,65 @@ import Section from "../Section";
 
 export interface INavigationHeaderProps {}
 
-export function NavigationHeader(props: INavigationHeaderProps) {
+export const NavigationHeader = observer((props: INavigationHeaderProps) => {
   const { authStore } = useRootStore();
+
+  const user = authStore.user;
+  const userType = user?.type;
+
+  console.log(userType, "jbkjb");
 
   const navigate = useNavigate();
 
-  return (
-    <Section className="py-0">
+  const ContractorNavBar = (
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
-        {new Array(10).fill(null).map((_, index) => {
-          const key = index + 1;
-          return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
-        })}
-        <Menu.Item
+      <MenuItem to={ROUTES.ContractorDashboard}>Bookings</MenuItem>
+        {/* <MenuItem to={ROUTES.}>Settings</MenuItem> */}
+        {/* <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem> */}
+        <MenuItem
           onClick={async () => {
             await authStore.logOut();
             navigate(ROUTES.LandingScreen);
           }}
         >
           Log Out
-        </Menu.Item>
+        </MenuItem>
       </Menu>
-    </Section>
   );
-}
+
+  const UserNavBar = (
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+      <MenuItem to={ROUTES.UserBookings}>Bookings</MenuItem>
+        <MenuItem to={ROUTES.UserSettings}>Settings</MenuItem>
+        <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem>
+        <MenuItem
+          onClick={async () => {
+            await authStore.logOut();
+            navigate(ROUTES.LandingScreen);
+          }}
+        >
+          Log Out
+        </MenuItem>
+    </Menu>
+  );
+
+  let currentNavBar = !userType ? (
+    <></>
+  ) : userType === USER_TYPE.User ? (
+    UserNavBar
+  ) : (
+    ContractorNavBar
+  );
+
+  console.log(userType);
+
+  return <Section className="py-0">{currentNavBar}</Section>;
+});
+
+const MenuItem = ({ to, onClick, ...props }: {to?:string, [prop:string]:any}) => {
+  const navigate = useNavigate();
+
+  return <Menu.Item {...props} onClick={(e) => (to ? navigate(to) : onClick?.(e))} />;
+};
+
+export default NavigationHeader;

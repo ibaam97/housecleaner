@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "auth": {
+      "clientapp4182a555": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "api": {
+      "clientapp": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ],
+      "bookingsRestApi": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "function": {
+      "AdminQueries55dab482": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "bookingsRestApiFunction": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

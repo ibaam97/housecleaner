@@ -1,0 +1,141 @@
+type Booking
+  @model
+  @key(
+    name: "byUser"
+    fields: ["user_id", "date"]
+    queryField: "bookingsByUserAndDate"
+  )
+  @key(
+    name: "byContactor"
+    fields: ["contractor_id", "date"]
+    queryField: "bookingsByContactorAndDate"
+  )
+  @key(
+    name: "byService"
+    fields: ["service_id", "date"]
+    queryField: "bookingsByServiceAndDate"
+  )
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  id: ID!
+  date: String!
+  address: String!
+  county: String
+  eircode: String
+  user: User! @connection(fields: ["user_id"])
+  user_id: ID!
+  contractor: Contractor @connection(fields: ["contractor_id"])
+  contractor_id: ID
+  service: Service! @connection(fields: ["service_id"])
+  service_id: ID!
+  booking_status: BOOKING_STATUS!
+  checkin_time: String
+  checkout_time: String
+  payment_id: ID
+  payment: Payment @connection(fields: ["payment_id"])
+  comment: String
+  rating: Int
+}
+
+type User
+  @model
+  @key(name: "byEmail", fields: ["email"], queryField: "userByEmail")
+  @key(
+    name: "byCounty"
+    fields: ["county", "gender"]
+    queryField: "userByCountyAndGender"
+  )
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  id: ID!
+  firstname: String!
+  lastname: String!
+  email: String!
+  address: String!
+  county: String!
+  eircode: String!
+  phone: String!
+  bookings: [Booking] @connection(keyName: "byUser", fields: ["id"])
+  gender: GENDER
+  payments: [Payment] @connection(keyName: "byUser", fields: ["id"])
+  # @auth(rules: [{ allow: public, provider: apiKey }])
+}
+
+type Contractor
+  @model
+  @key(name: "byService", fields: ["service_id"])
+  @key(name: "byEmail", fields: ["email"], queryField: "contractorByEmail")
+  @key(
+    name: "byServiceAndCounty"
+    fields: ["service_id", "county"]
+    queryField: "contractorByServiceAndCounty"
+  )
+  @key(
+    name: "byServiceAndCountyAndGender"
+    fields: ["service_id", "county", "gender"]
+    queryField: "contractorByServiceAndCountyAndGender"
+  )
+  @key(name: "byGender", fields: ["gender"], queryField: "userByGender")
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  firstname: String!
+  lastname: String!
+  email: String!
+  address: String!
+  county: String!
+  eircode: String!
+  id: ID!
+  bookings: [Booking] @connection(keyName: "byContactor", fields: ["id"])
+  service: Service! @connection(fields: ["service_id"])
+  service_id: ID!
+  gender: GENDER!
+  phone: String!
+  account: Int
+  rating: Float
+  ratingNumber: Int
+}
+
+type Service
+  @model
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  name: String!
+  id: ID!
+  description: String!
+  bookings: [Booking] @connection(keyName: "byService", fields: ["id"])
+  contractors: [Contractor] @connection(keyName: "byService", fields: ["id"])
+  pricePerMinute: Int
+}
+
+type Payment
+  @model
+  @key(
+    name: "byUser"
+    fields: ["user_id", "date"]
+    queryField: "paymentsByUserAndDate"
+  )
+  @key(
+    name: "byContractor"
+    fields: ["contractor_id", "date"]
+    queryField: "paymentsByUserAndDate"
+  )
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  amount: Int!
+  id: ID!
+  currency: String!
+  date: String!
+  user_id: ID!
+  contractor_id: ID!
+  booking: Booking @connection(fields: ["booking_id"])
+  booking_id: ID!
+}
+
+enum GENDER {
+  MALE
+  FEMALE
+  NON_BINARY
+}
+
+enum BOOKING_STATUS {
+  UNASSIGNED
+  ASSIGNED
+  ONGOING
+  COMPLETED
+  PAID
+}

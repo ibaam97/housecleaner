@@ -1,3 +1,4 @@
+import { Auth } from "aws-amplify";
 import axios from "axios";
 import api from "./config";
 
@@ -12,4 +13,20 @@ export const setToken = (token) => {
 
 export const getUserProfile = () => {
   return api.get("/api/users/profile");
+};
+
+export const getUserAttributes = async () => {
+  const user = await Auth.currentAuthenticatedUser();
+  return user.attributes
+};
+
+export const getCurrentUser = async () => {
+  const user = await Auth.currentAuthenticatedUser();
+  return user
+};
+
+export const getToken = async () => {
+  const user = await Auth.currentAuthenticatedUser();
+  const token = user.signInUserSession.idToken.jwtToken;
+  return token;
 };

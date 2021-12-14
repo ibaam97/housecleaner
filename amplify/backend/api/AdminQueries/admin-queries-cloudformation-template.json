@@ -14,23 +14,23 @@
         },
         
         
-          "authclientapp53b23a2153b23a21UserPoolId": {
+          "authclientapp4182a555UserPoolId": {
             "Type": "String",
-            "Default": "authclientapp53b23a2153b23a21UserPoolId"
+            "Default": "authclientapp4182a555UserPoolId"
           },
         
           
           
         
-          "functionAdminQueries2e63f42bArn": {
+          "functionAdminQueries55dab482Arn": {
             "Type": "String",
-            "Default": "functionAdminQueries2e63f42bArn"
+            "Default": "functionAdminQueries55dab482Arn"
           },
         
           
-          "functionAdminQueries2e63f42bName": {
+          "functionAdminQueries55dab482Name": {
             "Type": "String",
-            "Default": "functionAdminQueries2e63f42bName"
+            "Default": "functionAdminQueries55dab482Name"
           }
         
           
@@ -176,7 +176,7 @@
                                 ":lambda:path/2015-03-31/functions/",
                                 {
                                     
-                                    "Ref": "functionAdminQueries2e63f42bArn"
+                                    "Ref": "functionAdminQueries55dab482Arn"
                                 },
                                 "/invocations"
                               ]
@@ -217,7 +217,7 @@
                                   ":userpool/",
                                   {
                                                   
-                                    "Ref": "authclientapp53b23a2153b23a21UserPoolId"
+                                    "Ref": "authclientapp4182a555UserPoolId"
                                   }
 
                                 ]
@@ -268,7 +268,7 @@
         "Properties": {
             "FunctionName": 
                 {
-                  "Ref": "functionAdminQueries2e63f42bName"
+                  "Ref": "functionAdminQueries55dab482Name"
                 },
                 
                 "Action": "lambda:InvokeFunction",

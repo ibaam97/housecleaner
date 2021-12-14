@@ -9,42 +9,48 @@ import tw from "twin.macro";
 import COLORS from "@styles/COLORS";
 import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
 import { Divider } from "antd";
+import { getContractorBookings } from "@services/api/bookings";
 
 export interface IBookingRequestCardProps {
-  //   booking: Booking;
+  booking: Booking;
+  onAccept: (id, booking) => any;
   [prop: string]: any;
 }
 
 const StyledField = styled.div`
   ${tw``}
 `;
+
 export function BookingRequestCard({
-  //   booking: { service },
+  booking,
+  onAccept,
   ...props
 }: IBookingRequestCardProps) {
+  const { service, address, date, user, id } = booking;
   return (
     <div>
       <div className="px-5 py-5 flex gap-12 items-center">
         <StyledField>
           <BaseText fontSize="1rem">Type</BaseText>
-          <Paragraph>{"House Keeeper"}</Paragraph>
+          <Paragraph>{service.name}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Customer</BaseText>
-          <Paragraph>{"Allen Poe"}</Paragraph>
+          <Paragraph>{user.firstname}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Address</BaseText>
-          <Paragraph>Lorem ipsum dolor sit amet.</Paragraph>
+          <Paragraph>{address}</Paragraph>
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Date</BaseText>
-          <Paragraph>{format(Date.now(), "dd-mm-yy")}</Paragraph>
+          <Paragraph className="w-max">{format(new Date(date), "dd-mm-yy")}</Paragraph>
         </StyledField>
 
         <div className="ml-auto flex gap-4">
-          <ButtonDefault>Accept</ButtonDefault>
-          <ButtonDefault>Reject</ButtonDefault>
+          <ButtonDefault onClick={() => onAccept(id, booking)}>
+            Accept
+          </ButtonDefault>
         </div>
       </div>
       <Divider />
