@@ -40,7 +40,6 @@ export const createBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -95,7 +94,6 @@ export const updateBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -150,7 +148,6 @@ export const deleteBooking = /* GraphQL */ `
         county
         eircode
         id
-        image
         service_id
         gender
         phone
@@ -249,7 +246,6 @@ export const createContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -281,7 +277,6 @@ export const updateContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone
@@ -313,7 +308,6 @@ export const deleteContractor = /* GraphQL */ `
       county
       eircode
       id
-      image
       service_id
       gender
       phone

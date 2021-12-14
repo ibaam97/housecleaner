@@ -23,6 +23,7 @@ const {
   updateBooking,
   createBooking,
 } = require("./services/api/bookings");
+const { updateContractor } = require("./services/api/users");
 
 // declare a new express app
 var app = express();
@@ -43,11 +44,11 @@ app.use(function (req, res, next) {
 app.post("/bookings/create", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
   console.log(user);
-  if (!user) return res.json({ message: user });
+  if (!user) return res.status(401).json({ message: "Unauthorized" });
   const newBooking = {
     ...req.body,
     user_id: user.email,
-    booking_status: "UNASSIGNED"
+    booking_status: "UNASSIGNED",
   };
   const createdBooking = await createBooking(newBooking);
   return res.json(createdBooking);
@@ -57,10 +58,10 @@ app.get("/bookings/:id/accept", async function (req, res) {
   /* code */
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
   console.log(user);
-  if (!user) return res.json({ message: user });
+  if (!user) return res.status(401).json({ message: "Unauthorized" });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
-  if (!booking) return res.status("400");
+  if (!booking) return res.status(400);
   const updatedBooking = await updateBooking(bookingId, {
     contractor_id: user.email,
     booking_status: "ASSIGNED",
@@ -71,10 +72,10 @@ app.get("/bookings/:id/accept", async function (req, res) {
 app.get("/bookings/:id/checkin", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
   console.log(user);
-  if (!user) return res.json({ message: user });
+  if (!user) return res.status(401).json({ message: "Unauthorized" });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
-  if (!booking) return res.status("400");
+  if (!booking) return res.status(400);
   const updatedBooking = await updateBooking(bookingId, {
     booking_status: "ONGOING",
     checkin_time: Date.now().toString(),
@@ -85,15 +86,47 @@ app.get("/bookings/:id/checkin", async function (req, res) {
 app.get("/bookings/:id/checkout", async function (req, res) {
   const user = req.apiGateway.event.requestContext.authorizer?.claims;
   console.log(user);
-  if (!user) return res.json({ message: user });
+  if (!user) return res.status(401).json({ message: "Unauthorized" });
   const bookingId = req.params.id;
   const booking = await getBooking(bookingId);
-  if (!booking) return res.status("400");
+  if (!booking) return res.status(400);
   const updatedBooking = await updateBooking(bookingId, {
     booking_status: "COMPLETED",
     checkout_time: Date.now().toString(),
   });
   return res.json(updatedBooking);
+});
+
+app.post("/bookings/:id/review", async function (req, res) {
+  try {
+    /* code */
+    const user = req.apiGateway.event.requestContext.authorizer?.claims;
+    console.log(user, "nnjjnnjjnn");
+    if (!user) return res.status(401).json({ message: "Unauthorized" });
+    const bookingId = req.params.id;
+    console.log(bookingId, "jjjkkkjjjkk");
+    const booking = await getBooking(bookingId);
+    console.log(booking);
+    const contractor = booking?.data?.getBooking?.contractor;
+    if (!contractor) return res.status(400).json({ message: "no booking" });
+    const { comment, rating } = req.body;
+    const { id, ratingNumber, rating: contractorRating } = contractor;
+
+    const updatedBooking = await updateBooking(bookingId, {
+      comment: comment || null,
+      rating: rating || null,
+    });
+    if (rating)
+      await updateContractor(id, {
+        rating:
+          ((contractorRating || 0) * (ratingNumber || 0) + rating) /
+          ((ratingNumber || 0) + 1),
+        ratingNumber: (ratingNumber || 0) + 1,
+      });
+    return res.json({ updatedBooking });
+  } catch (e) {
+    console.log(e, { ...e });
+  }
 });
 /****************************
  * Example post method *

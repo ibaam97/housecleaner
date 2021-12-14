@@ -41,7 +41,7 @@ export function ContractorRegistration(props: IContractorRegistrationProps) {
   ) => {
     try {
       await authStore.signUpContractor({ ...values, type: USER_TYPE.Contractor });
-      navigate(ROUTES.getVerifyUser(values.email));
+      navigate(ROUTES.getVerifyContractor(values.email));
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

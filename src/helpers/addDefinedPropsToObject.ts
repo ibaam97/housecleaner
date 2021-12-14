@@ -1,6 +1,6 @@
-const addDefinedPropsToObject = (object) => {
+const addDefinedPropsToObject = (object: {}) => {
   return Object.keys(object).reduce((acc, curr) => {
-    const currVal = object[curr];
+    const currVal: any = object[curr];
     if (currVal) return { ...acc, [curr]: currVal };
     return acc;
   }, {});

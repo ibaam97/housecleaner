@@ -1,5 +1,6 @@
 import {
   createBooking,
+  createReview,
   getBookings,
   getServiceBookings,
   getUserBookings,
@@ -79,9 +80,28 @@ export const BookingsStore = types
         return booking;
       } catch (error) {
         //set global error
-        throw error;
         console.log({ ...error });
         console.log(`error`, error);
+        throw error;
+      } finally {
+        self.fetching = false;
+      }
+    }),
+    createReview: flow(function* ({ booking_id, comment, rating }) {
+      try {
+        self.fetching = true;
+        // console.log("payload", payload);
+        const booking = yield createReview({
+          booking_id,
+          comment,
+          rating,
+        });
+        // self.bookingsMeta = rest;
+        return booking;
+      } catch (error) {
+        console.log({ ...error });
+        console.log(`error`, error);
+        throw error;
       } finally {
         self.fetching = false;
       }

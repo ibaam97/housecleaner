@@ -252,15 +252,11 @@ const updateContractor = gql`
       county
       eircode
       id
-      image
       service_id
       gender
       phone
       createdAt
       updatedAt
-      bookings {
-        nextToken
-      }
       service {
         name
         id
@@ -367,4 +363,5 @@ const deleteService = gql`
 module.exports = {
   createBooking,
   updateBooking,
+  updateContractor
 };

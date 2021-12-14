@@ -23,7 +23,7 @@ export const getService = async ({
   const res = API.graphql(
     graphqlOperation(getServiceQuery, { service_id, filters })
   ) as Promise<GraphQLResult<GraphQueryResult<Service>>>;
-  return (await res).data["getServiceQuery"];
+  return (await res).data["getService"];
 };
 export const getServices = async ({
   authToken,

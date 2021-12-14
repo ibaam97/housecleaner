@@ -3,45 +3,80 @@ import { API, graphqlOperation } from "aws-amplify";
 import {
   contractorByServiceAndCountyAndGender,
   listContractors,
+  getContractor as getContractorQuery,
 } from "@services/graphql/queries";
 import {
   createContractor as createContractorQuery,
   updateContractor as updateContractorQuery,
 } from "@services/graphql/mutations";
 import Contractor from "types/Contractor";
+import { GraphQLResult } from "@aws-amplify/api-graphql";
+import ListGraphQueryResult from "@interfaces/ListGraphQueryResult";
+import Service from "types/Service";
+import GraphQueryResult from "@interfaces/GraphQueryResult";
 
-export const getContractor = ({
+export const getContractor = async ({
   authToken,
   filters,
   contractor_id,
 }: {
   authToken?: string;
-  filters;
+  filters?;
   contractor_id;
-}) => API.graphql(graphqlOperation(getContractor, { contractor_id, filters }));
-export const getContractors = ({
+}) => {
+  const res = API.graphql(
+    graphqlOperation(getContractorQuery, { id: contractor_id, filters })
+  ) as Promise<GraphQLResult<GraphQueryResult<Contractor>>>;
+  return (await res).data["getContractor"];
+};
+export const getContractors = async ({
   authToken,
   filters,
 }: {
   authToken?: string;
   filters;
-}) => API.graphql(graphqlOperation(listContractors, { filters }));
+}) => {
+  const res = API.graphql(
+    graphqlOperation(listContractors, { filters })
+  ) as Promise<GraphQLResult<ListGraphQueryResult<Contractor>>>;
+  return (await res).data["listContractors"].items;
+};
 
-export const getServiceContractors = ({
+export const getServiceContractors = async ({
   authToken,
   filters,
   service_id,
 }: {
   authToken?: string;
-  filters;
+  filters?;
   service_id: Id;
-}) =>
-  API.graphql(
+}) => {
+  const res = API.graphql(
     graphqlOperation(contractorByServiceAndCountyAndGender, { service_id })
-  );
+  ) as Promise<GraphQLResult<ListGraphQueryResult<Contractor>>>;
+  return (await res).data["contractorByServiceAndCountyAndGender"].items;
+};
 
-export const createContractor = ({ newContractor }: { newContractor: Contractor }) =>
-  API.graphql(graphqlOperation(createContractorQuery, { ...newContractor }));
+export const createContractor = async ({
+  newContractor,
+}: {
+  newContractor: Contractor;
+}) => {
+  const res = API.graphql(
+    graphqlOperation(createContractorQuery, { ...newContractor })
+  ) as Promise<GraphQLResult<ListGraphQueryResult<Contractor>>>;
+  return (await res).data["createContractor"];
+};
 
-export const updateContractor = ({ newContractor, id }: { newContractor: Contractor; id?: Id }) =>
-  API.graphql(graphqlOperation(updateContractorQuery, { id, ...newContractor }));
+export const updateContractor = async ({
+  newContractor,
+  id,
+}: {
+  newContractor: Contractor;
+  id?: Id;
+}) => {
+  const res = API.graphql(
+    graphqlOperation(updateContractorQuery, { id, input: newContractor })
+  ) as Promise<GraphQLResult<ListGraphQueryResult<Contractor>>>;
+  return (await res).data["updateContractor"];
+};

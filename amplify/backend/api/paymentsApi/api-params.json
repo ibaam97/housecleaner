@@ -1,0 +1,35 @@
+{
+  "paths": [
+    {
+      "name": "/payments",
+      "lambdaFunction": "paymentsApi",
+      "privacy": {
+        "open": true
+      },
+      "policyResourceName": "/payments"
+    }
+  ],
+  "resourceName": "paymentsApi",
+  "apiName": "paymentsApi",
+  "functionArns": [
+    {
+      "lambdaFunction": "paymentsApi"
+    }
+  ],
+  "privacy": {
+    "auth": 0,
+    "unauth": 0,
+    "authRoleName": "amplify-clientapp-dev-173302-authRole",
+    "unAuthRoleName": "amplify-clientapp-dev-173302-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "paymentsApi",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

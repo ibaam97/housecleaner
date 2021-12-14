@@ -40,6 +40,11 @@ const awsmobile = {
             "name": "bookingsRestApi",
             "endpoint": "https://vrvy2yikk6.execute-api.us-east-1.amazonaws.com/dev",
             "region": "us-east-1"
+        },
+        {
+            "name": "paymentsApi",
+            "endpoint": "https://bkyj8lov9g.execute-api.us-east-1.amazonaws.com/dev",
+            "region": "us-east-1"
         }
     ],
     "aws_dynamodb_all_tables_region": "us-east-1",

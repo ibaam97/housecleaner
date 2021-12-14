@@ -30,7 +30,7 @@ export function ContractorSignIn(props: IContractorSignInProps) {
   ) => {
     try {
       await authStore.signIn(values);
-      navigate(ROUTES.UserDashboard);
+      navigate(ROUTES.ContractorDashboard);
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

@@ -5,6 +5,7 @@ import {
   bookingsByServiceAndDate,
   bookingsByUserAndDate,
   listBookings,
+  getBooking as getBookingQuery,
 } from "@services/graphql/queries";
 import {
   createBooking as createBookingQuery,
@@ -17,6 +18,21 @@ import GraphQueryResult from "@interfaces/GraphQueryResult";
 import BOOKING_STATUS from "@enums/BOOKING_STATUS.enum";
 import { restRequest } from "./config";
 import { getUserAttributes } from "./auth";
+
+export const getBooking = async ({
+  authToken,
+  filters,
+  booking_id,
+}: {
+  authToken?: string;
+  filters?;
+  booking_id;
+}) => {
+  const res = API.graphql(
+    graphqlOperation(getBookingQuery, { booking_id, filters })
+  ) as Promise<GraphQLResult<GraphQueryResult<Booking>>>;
+  return (await res).data["getBooking"];
+};
 
 export const getBookings = async ({
   authToken,
@@ -154,6 +170,16 @@ export const checkoutBooking = async ({ id }) => {
     "get",
     "bookingsRestApi",
     `/bookings/${id}/checkout`
+  );
+  return res;
+};
+
+export const createReview = async ({ booking_id, comment, rating }) => {
+  const res = await restRequest(
+    "post",
+    "bookingsRestApi",
+    `/bookings/${booking_id}/review`,
+    { comment, rating }
   );
   return res;
 };

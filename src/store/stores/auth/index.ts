@@ -1,14 +1,23 @@
+import USER_TYPE from "@enums/USER_TYPE.enum";
 import { ContractorRegistrationValues } from "@screens/Contractor/ContractorAuthentication/ContractorRegistration/ContractorRegistrationValues";
 import { UserChangePasswordValues } from "@screens/User/UserAuthentication/UserChangePassword/UserChangePasswordValues";
 import { UserRegistrationValues } from "@screens/User/UserAuthentication/UserRegistration/UserRegistrationValues";
 import { UserSignInValues } from "@screens/User/UserAuthentication/UserSignIn/UserSignInValues";
 import { UserSettingsValues } from "@screens/User/UserDashboard/UserSettings/UserSettingsPage/UserSettingsValues";
-import { getUser } from "@services/api/users";
+import { getContractor, updateContractor } from "@services/api/contractors";
+import { getUser, updateUser } from "@services/api/users";
 import { Auth } from "aws-amplify";
 import addDefinedPropsToObject from "helpers/addDefinedPropsToObject";
 import { GenericAxiosResponse } from "interfaces/api";
 import { flow, types } from "mobx-state-tree";
-import { getCurrentUser, getUserAttributes, getUserProfile, setToken, signIn } from "services/api";
+import {
+  getCurrentUser,
+  getUserAttributes,
+  getUserProfile,
+  setToken,
+  signIn,
+} from "services/api";
+import Contractor from "types/Contractor";
 import { User } from "./auth";
 
 /**
@@ -20,8 +29,8 @@ import { User } from "./auth";
 
 export const AuthStore = types
   .model("Auth", {
-    user: types.optional(types.frozen<User>(), {}),
-    token: types.optional(types.string, localStorage.getItem("token") || ""),
+    user: types.optional(types.frozen<(User | Contractor) & { type?: USER_TYPE } >(), null),
+    token: types.optional(types.frozen<string>(), localStorage.getItem("token") || null),
   })
   .views((self) => ({
     get isAuthenticated() {
@@ -32,12 +41,32 @@ export const AuthStore = types
     },
   }))
   .actions((self) => ({
-    setUser(user: User) {
+    setUser(user: User | Contractor ) {
       self.user = user;
     },
     setToken(token: string) {
       self.token = token;
     },
+  }))
+  .actions((self) => ({
+    getUserProfile: flow(function* () {
+      try {
+        const userAttributes = yield getUserAttributes();
+        const type = userAttributes["custom:type"];
+        const userFromDB =
+          type === USER_TYPE.User
+            ? yield getUser({ user_id: userAttributes.email })
+            : yield getContractor({ contractor_id: userAttributes.email });
+        console.log(userFromDB, "userFromDb");
+        self.setUser({ ...userFromDB, type });
+        return userFromDB;
+      } catch (error) {
+        //set global error
+        console.log(`errorhh`, error);
+      }
+
+      return self.user;
+    }),
   }))
   .actions((self) => ({
     signUpUser: flow(function* ({
@@ -53,7 +82,7 @@ export const AuthStore = types
       type,
     }: UserRegistrationValues) {
       try {
-        const resp = yield Auth.signUp({
+        return yield Auth.signUp({
           username: email,
           password,
           attributes: {
@@ -68,15 +97,10 @@ export const AuthStore = types
             "custom:eircode": eircode,
           },
         });
-        // yield setToken(`Bearer ${token}`);
-        // localStorage.setItem("token", token);
-        // self.token = token;
-        return resp;
       } catch (error) {
         console.log(error);
         throw error;
       }
-      return self.token;
     }),
     signUpContractor: flow(function* ({
       email,
@@ -89,10 +113,10 @@ export const AuthStore = types
       phone,
       password,
       type,
-      service_id
+      service_id,
     }: ContractorRegistrationValues) {
       try {
-        const resp = yield Auth.signUp({
+        return yield Auth.signUp({
           username: email,
           password,
           attributes: {
@@ -108,10 +132,6 @@ export const AuthStore = types
             "custom:service_id": service_id,
           },
         });
-        // yield setToken(`Bearer ${token}`);
-        // localStorage.setItem("token", token);
-        // self.token = token;
-        return resp;
       } catch (error) {
         console.log(error);
         throw error;
@@ -121,7 +141,7 @@ export const AuthStore = types
     signIn: flow(function* ({ email, password }: UserSignInValues) {
       try {
         const user = yield Auth.signIn(email, password);
-        console.log(user);
+        yield self.getUserProfile();
         return user;
       } catch (error) {
         console.log(`error`, error);
@@ -138,26 +158,53 @@ export const AuthStore = types
       gender,
       phone,
       type,
-      service_id
+      service_id,
     }: UserSettingsValues) {
       try {
-        const  user = yield getCurrentUser()
-        const resp = yield Auth.updateUserAttributes(user, addDefinedPropsToObject({
+        const user = yield getCurrentUser();
+        const resp = yield Auth.updateUserAttributes(
+          user,
+          addDefinedPropsToObject({
+            email,
+            phone_number: phone,
+            address,
+            family_name: lastname,
+            name: firstname,
+            gender: gender,
+            "custom:type": type,
+            "custom:county": county,
+            "custom:eircode": eircode,
+            "custom:service_id": service_id,
+          })
+        );
+
+        const updatedUser = addDefinedPropsToObject({
+          id: email,
           email,
-          phone_number: phone,
+          firstname,
+          lastname,
+          county,
+          eircode,
           address,
-          family_name: lastname,
-          name: firstname,
-          gender: gender,
-          "custom:type": type,
-          "custom:county": county,
-          "custom:eircode": eircode,
-          "custom:service_id": service_id,
-        }))
-        
-        // yield setToken(`Bearer ${token}`);
-        // localStorage.setItem("token", token);
-        // self.token = token;
+          gender,
+          phone,
+        });
+
+        if (type === "User") {
+          yield updateUser({
+            // @ts-ignore
+            newUser: updatedUser,
+          });
+        } else {
+          yield updateContractor({
+            // @ts-ignore
+            newContractor: addDefinedPropsToObject({
+              ...updateUser,
+              service_id,
+            }),
+          });
+        }
+        yield self.getUserProfile();
         return resp;
       } catch (error) {
         console.log(error);
@@ -165,38 +212,21 @@ export const AuthStore = types
       }
     }),
     changePassword: flow(function* ({
-      oldPassword, newPassword
+      oldPassword,
+      newPassword,
     }: UserChangePasswordValues) {
       try {
-        const  user = yield getCurrentUser()
-        const resp = yield Auth.changePassword(user, oldPassword, newPassword)
-        
-        // yield setToken(`Bearer ${token}`);
-        // localStorage.setItem("token", token);
-        // self.token = token;
-        return resp;
+        const user = yield getCurrentUser();
+        return yield Auth.changePassword(user, oldPassword, newPassword);
       } catch (error) {
         console.log(error);
         throw error;
       }
     }),
-    getUserProfile: flow(function* () {
-      try {
-        const resp = yield getUser({});
-        console.log(resp, "USER");
-        self.user = resp.data.data;
-      } catch (error) {
-        //set global error
-        console.log(`error`, error);
-      }
-
-      return self.user;
-    }),
     logOut: flow(function* () {
       yield Auth.signOut();
-      self.user = {};
-      self.token = "";
-
+      self.user = null;
+      self.token = null;
       return true;
     }),
   }));

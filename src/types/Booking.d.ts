@@ -16,4 +16,6 @@ type Booking = {
   booking_status?: BOOKING_STATUS;
   checkin_time?: string;
   checkout_time?: string;
+  comment?: string
+  rating?: number
 } & Address;

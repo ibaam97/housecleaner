@@ -14,6 +14,9 @@ export type CreateBookingInput = {
   booking_status: BOOKING_STATUS,
   checkin_time?: string | null,
   checkout_time?: string | null,
+  payment_id?: string | null,
+  comment?: string | null,
+  rating?: number | null,
 };
 
 export enum BOOKING_STATUS {
@@ -36,6 +39,9 @@ export type ModelBookingConditionInput = {
   booking_status?: ModelBOOKING_STATUSInput | null,
   checkin_time?: ModelStringInput | null,
   checkout_time?: ModelStringInput | null,
+  payment_id?: ModelIDInput | null,
+  comment?: ModelStringInput | null,
+  rating?: ModelIntInput | null,
   and?: Array< ModelBookingConditionInput | null > | null,
   or?: Array< ModelBookingConditionInput | null > | null,
   not?: ModelBookingConditionInput | null,
@@ -102,6 +108,18 @@ export type ModelBOOKING_STATUSInput = {
   ne?: BOOKING_STATUS | null,
 };
 
+export type ModelIntInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
 export type Booking = {
   __typename: "Booking",
   id: string,
@@ -115,11 +133,15 @@ export type Booking = {
   booking_status: BOOKING_STATUS,
   checkin_time?: string | null,
   checkout_time?: string | null,
+  payment_id?: string | null,
+  comment?: string | null,
+  rating?: number | null,
   createdAt: string,
   updatedAt: string,
   user: User,
   contractor?: Contractor | null,
   service: Service,
+  payment?: Payment | null,
 };
 
 export type User = {
@@ -136,6 +158,7 @@ export type User = {
   createdAt: string,
   updatedAt: string,
   bookings?: ModelBookingConnection | null,
+  payments?: ModelPaymentConnection | null,
 };
 
 export enum GENDER {
@@ -151,6 +174,26 @@ export type ModelBookingConnection = {
   nextToken?: string | null,
 };
 
+export type ModelPaymentConnection = {
+  __typename: "ModelPaymentConnection",
+  items?:  Array<Payment | null > | null,
+  nextToken?: string | null,
+};
+
+export type Payment = {
+  __typename: "Payment",
+  amount: number,
+  id: string,
+  currency: string,
+  date: string,
+  user_id: string,
+  contractor_id: string,
+  booking_id: string,
+  createdAt: string,
+  updatedAt: string,
+  booking?: Booking | null,
+};
+
 export type Contractor = {
   __typename: "Contractor",
   firstname: string,
@@ -163,6 +206,9 @@ export type Contractor = {
   service_id: string,
   gender: GENDER,
   phone: string,
+  account?: number | null,
+  rating?: number | null,
+  ratingNumber?: number | null,
   createdAt: string,
   updatedAt: string,
   bookings?: ModelBookingConnection | null,
@@ -174,6 +220,7 @@ export type Service = {
   name: string,
   id: string,
   description: string,
+  pricePerMinute?: number | null,
   createdAt: string,
   updatedAt: string,
   bookings?: ModelBookingConnection | null,
@@ -198,6 +245,9 @@ export type UpdateBookingInput = {
   booking_status?: BOOKING_STATUS | null,
   checkin_time?: string | null,
   checkout_time?: string | null,
+  payment_id?: string | null,
+  comment?: string | null,
+  rating?: number | null,
 };
 
 export type DeleteBookingInput = {
@@ -262,6 +312,9 @@ export type CreateContractorInput = {
   service_id: string,
   gender: GENDER,
   phone: string,
+  account?: number | null,
+  rating?: number | null,
+  ratingNumber?: number | null,
 };
 
 export type ModelContractorConditionInput = {
@@ -274,9 +327,24 @@ export type ModelContractorConditionInput = {
   service_id?: ModelIDInput | null,
   gender?: ModelGENDERInput | null,
   phone?: ModelStringInput | null,
+  account?: ModelIntInput | null,
+  rating?: ModelFloatInput | null,
+  ratingNumber?: ModelIntInput | null,
   and?: Array< ModelContractorConditionInput | null > | null,
   or?: Array< ModelContractorConditionInput | null > | null,
   not?: ModelContractorConditionInput | null,
+};
+
+export type ModelFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type UpdateContractorInput = {
@@ -290,6 +358,9 @@ export type UpdateContractorInput = {
   service_id?: string | null,
   gender?: GENDER | null,
   phone?: string | null,
+  account?: number | null,
+  rating?: number | null,
+  ratingNumber?: number | null,
 };
 
 export type DeleteContractorInput = {
@@ -300,11 +371,13 @@ export type CreateServiceInput = {
   name: string,
   id?: string | null,
   description: string,
+  pricePerMinute?: number | null,
 };
 
 export type ModelServiceConditionInput = {
   name?: ModelStringInput | null,
   description?: ModelStringInput | null,
+  pricePerMinute?: ModelIntInput | null,
   and?: Array< ModelServiceConditionInput | null > | null,
   or?: Array< ModelServiceConditionInput | null > | null,
   not?: ModelServiceConditionInput | null,
@@ -314,9 +387,46 @@ export type UpdateServiceInput = {
   name?: string | null,
   id: string,
   description?: string | null,
+  pricePerMinute?: number | null,
 };
 
 export type DeleteServiceInput = {
+  id: string,
+};
+
+export type CreatePaymentInput = {
+  amount: number,
+  id?: string | null,
+  currency: string,
+  date: string,
+  user_id: string,
+  contractor_id: string,
+  booking_id: string,
+};
+
+export type ModelPaymentConditionInput = {
+  amount?: ModelIntInput | null,
+  currency?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  user_id?: ModelIDInput | null,
+  contractor_id?: ModelIDInput | null,
+  booking_id?: ModelIDInput | null,
+  and?: Array< ModelPaymentConditionInput | null > | null,
+  or?: Array< ModelPaymentConditionInput | null > | null,
+  not?: ModelPaymentConditionInput | null,
+};
+
+export type UpdatePaymentInput = {
+  amount?: number | null,
+  id: string,
+  currency?: string | null,
+  date?: string | null,
+  user_id?: string | null,
+  contractor_id?: string | null,
+  booking_id?: string | null,
+};
+
+export type DeletePaymentInput = {
   id: string,
 };
 
@@ -332,6 +442,9 @@ export type ModelBookingFilterInput = {
   booking_status?: ModelBOOKING_STATUSInput | null,
   checkin_time?: ModelStringInput | null,
   checkout_time?: ModelStringInput | null,
+  payment_id?: ModelIDInput | null,
+  comment?: ModelStringInput | null,
+  rating?: ModelIntInput | null,
   and?: Array< ModelBookingFilterInput | null > | null,
   or?: Array< ModelBookingFilterInput | null > | null,
   not?: ModelBookingFilterInput | null,
@@ -385,6 +498,9 @@ export type ModelContractorFilterInput = {
   service_id?: ModelIDInput | null,
   gender?: ModelGENDERInput | null,
   phone?: ModelStringInput | null,
+  account?: ModelIntInput | null,
+  rating?: ModelFloatInput | null,
+  ratingNumber?: ModelIntInput | null,
   and?: Array< ModelContractorFilterInput | null > | null,
   or?: Array< ModelContractorFilterInput | null > | null,
   not?: ModelContractorFilterInput | null,
@@ -409,6 +525,7 @@ export type ModelServiceFilterInput = {
   name?: ModelStringInput | null,
   id?: ModelIDInput | null,
   description?: ModelStringInput | null,
+  pricePerMinute?: ModelIntInput | null,
   and?: Array< ModelServiceFilterInput | null > | null,
   or?: Array< ModelServiceFilterInput | null > | null,
   not?: ModelServiceFilterInput | null,
@@ -418,6 +535,19 @@ export type ModelServiceConnection = {
   __typename: "ModelServiceConnection",
   items?:  Array<Service | null > | null,
   nextToken?: string | null,
+};
+
+export type ModelPaymentFilterInput = {
+  amount?: ModelIntInput | null,
+  id?: ModelIDInput | null,
+  currency?: ModelStringInput | null,
+  date?: ModelStringInput | null,
+  user_id?: ModelIDInput | null,
+  contractor_id?: ModelIDInput | null,
+  booking_id?: ModelIDInput | null,
+  and?: Array< ModelPaymentFilterInput | null > | null,
+  or?: Array< ModelPaymentFilterInput | null > | null,
+  not?: ModelPaymentFilterInput | null,
 };
 
 export type CreateBookingMutationVariables = {
@@ -439,6 +569,9 @@ export type CreateBookingMutation = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -467,6 +600,9 @@ export type CreateBookingMutation = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -475,9 +611,22 @@ export type CreateBookingMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -500,6 +649,9 @@ export type UpdateBookingMutation = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -528,6 +680,9 @@ export type UpdateBookingMutation = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -536,9 +691,22 @@ export type UpdateBookingMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -561,6 +729,9 @@ export type DeleteBookingMutation = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -589,6 +760,9 @@ export type DeleteBookingMutation = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -597,9 +771,22 @@ export type DeleteBookingMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -624,6 +811,10 @@ export type CreateUserMutation = {
     updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -652,6 +843,10 @@ export type UpdateUserMutation = {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -678,6 +873,10 @@ export type DeleteUserMutation = {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -699,6 +898,9 @@ export type CreateContractorMutation = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -710,6 +912,7 @@ export type CreateContractorMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -734,6 +937,9 @@ export type UpdateContractorMutation = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -745,6 +951,7 @@ export type UpdateContractorMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -769,6 +976,9 @@ export type DeleteContractorMutation = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -780,6 +990,7 @@ export type DeleteContractorMutation = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -797,6 +1008,7 @@ export type CreateServiceMutation = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -821,6 +1033,7 @@ export type UpdateServiceMutation = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -845,6 +1058,7 @@ export type DeleteServiceMutation = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -854,6 +1068,123 @@ export type DeleteServiceMutation = {
     contractors?:  {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type CreatePaymentMutationVariables = {
+  input: CreatePaymentInput,
+  condition?: ModelPaymentConditionInput | null,
+};
+
+export type CreatePaymentMutation = {
+  createPayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type UpdatePaymentMutationVariables = {
+  input: UpdatePaymentInput,
+  condition?: ModelPaymentConditionInput | null,
+};
+
+export type UpdatePaymentMutation = {
+  updatePayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type DeletePaymentMutationVariables = {
+  input: DeletePaymentInput,
+  condition?: ModelPaymentConditionInput | null,
+};
+
+export type DeletePaymentMutation = {
+  deletePayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
     } | null,
   } | null,
 };
@@ -876,6 +1207,9 @@ export type GetBookingQuery = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -904,6 +1238,9 @@ export type GetBookingQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -912,9 +1249,22 @@ export type GetBookingQuery = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -940,6 +1290,9 @@ export type ListBookingsQuery = {
       booking_status: BOOKING_STATUS,
       checkin_time?: string | null,
       checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -972,6 +1325,9 @@ export type BookingsByUserAndDateQuery = {
       booking_status: BOOKING_STATUS,
       checkin_time?: string | null,
       checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1004,6 +1360,9 @@ export type BookingsByContactorAndDateQuery = {
       booking_status: BOOKING_STATUS,
       checkin_time?: string | null,
       checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1036,6 +1395,9 @@ export type BookingsByServiceAndDateQuery = {
       booking_status: BOOKING_STATUS,
       checkin_time?: string | null,
       checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1063,6 +1425,10 @@ export type GetUserQuery = {
     updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1171,6 +1537,9 @@ export type GetContractorQuery = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1182,6 +1551,7 @@ export type GetContractorQuery = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1209,6 +1579,9 @@ export type ListContractorsQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1239,6 +1612,9 @@ export type ContractorByEmailQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1270,6 +1646,9 @@ export type ContractorByServiceAndCountyQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1301,6 +1680,9 @@ export type ContractorByServiceAndCountyAndGenderQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1331,6 +1713,9 @@ export type UserByGenderQuery = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1348,6 +1733,7 @@ export type GetServiceQuery = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1375,6 +1761,98 @@ export type ListServicesQuery = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetPaymentQueryVariables = {
+  id: string,
+};
+
+export type GetPaymentQuery = {
+  getPayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type ListPaymentsQueryVariables = {
+  filter?: ModelPaymentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListPaymentsQuery = {
+  listPayments?:  {
+    __typename: "ModelPaymentConnection",
+    items?:  Array< {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type PaymentsByUserAndDateQueryVariables = {
+  user_id?: string | null,
+  date?: ModelStringKeyConditionInput | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelPaymentFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type PaymentsByUserAndDateQuery = {
+  paymentsByUserAndDate?:  {
+    __typename: "ModelPaymentConnection",
+    items?:  Array< {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -1396,6 +1874,9 @@ export type OnCreateBookingSubscription = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -1424,6 +1905,9 @@ export type OnCreateBookingSubscription = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1432,9 +1916,22 @@ export type OnCreateBookingSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -1452,6 +1949,9 @@ export type OnUpdateBookingSubscription = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -1480,6 +1980,9 @@ export type OnUpdateBookingSubscription = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1488,9 +1991,22 @@ export type OnUpdateBookingSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -1508,6 +2024,9 @@ export type OnDeleteBookingSubscription = {
     booking_status: BOOKING_STATUS,
     checkin_time?: string | null,
     checkout_time?: string | null,
+    payment_id?: string | null,
+    comment?: string | null,
+    rating?: number | null,
     createdAt: string,
     updatedAt: string,
     user:  {
@@ -1536,6 +2055,9 @@ export type OnDeleteBookingSubscription = {
       service_id: string,
       gender: GENDER,
       phone: string,
+      account?: number | null,
+      rating?: number | null,
+      ratingNumber?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null,
@@ -1544,9 +2066,22 @@ export type OnDeleteBookingSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
+    payment?:  {
+      __typename: "Payment",
+      amount: number,
+      id: string,
+      currency: string,
+      date: string,
+      user_id: string,
+      contractor_id: string,
+      booking_id: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
   } | null,
 };
 
@@ -1566,6 +2101,10 @@ export type OnCreateUserSubscription = {
     updatedAt: string,
     bookings?:  {
       __typename: "ModelBookingConnection",
+      nextToken?: string | null,
+    } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
       nextToken?: string | null,
     } | null,
   } | null,
@@ -1589,6 +2128,10 @@ export type OnUpdateUserSubscription = {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1610,6 +2153,10 @@ export type OnDeleteUserSubscription = {
       __typename: "ModelBookingConnection",
       nextToken?: string | null,
     } | null,
+    payments?:  {
+      __typename: "ModelPaymentConnection",
+      nextToken?: string | null,
+    } | null,
   } | null,
 };
 
@@ -1626,6 +2173,9 @@ export type OnCreateContractorSubscription = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1637,6 +2187,7 @@ export type OnCreateContractorSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1656,6 +2207,9 @@ export type OnUpdateContractorSubscription = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1667,6 +2221,7 @@ export type OnUpdateContractorSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1686,6 +2241,9 @@ export type OnDeleteContractorSubscription = {
     service_id: string,
     gender: GENDER,
     phone: string,
+    account?: number | null,
+    rating?: number | null,
+    ratingNumber?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1697,6 +2255,7 @@ export type OnDeleteContractorSubscription = {
       name: string,
       id: string,
       description: string,
+      pricePerMinute?: number | null,
       createdAt: string,
       updatedAt: string,
     },
@@ -1709,6 +2268,7 @@ export type OnCreateServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1728,6 +2288,7 @@ export type OnUpdateServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1747,6 +2308,7 @@ export type OnDeleteServiceSubscription = {
     name: string,
     id: string,
     description: string,
+    pricePerMinute?: number | null,
     createdAt: string,
     updatedAt: string,
     bookings?:  {
@@ -1756,6 +2318,108 @@ export type OnDeleteServiceSubscription = {
     contractors?:  {
       __typename: "ModelContractorConnection",
       nextToken?: string | null,
+    } | null,
+  } | null,
+};
+
+export type OnCreatePaymentSubscription = {
+  onCreatePayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnUpdatePaymentSubscription = {
+  onUpdatePayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
+  } | null,
+};
+
+export type OnDeletePaymentSubscription = {
+  onDeletePayment?:  {
+    __typename: "Payment",
+    amount: number,
+    id: string,
+    currency: string,
+    date: string,
+    user_id: string,
+    contractor_id: string,
+    booking_id: string,
+    createdAt: string,
+    updatedAt: string,
+    booking?:  {
+      __typename: "Booking",
+      id: string,
+      date: string,
+      address: string,
+      county?: string | null,
+      eircode?: string | null,
+      user_id: string,
+      contractor_id?: string | null,
+      service_id: string,
+      booking_status: BOOKING_STATUS,
+      checkin_time?: string | null,
+      checkout_time?: string | null,
+      payment_id?: string | null,
+      comment?: string | null,
+      rating?: number | null,
+      createdAt: string,
+      updatedAt: string,
     } | null,
   } | null,
 };

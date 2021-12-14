@@ -30,6 +30,10 @@ type Booking
   booking_status: BOOKING_STATUS!
   checkin_time: String
   checkout_time: String
+  payment_id: ID
+  payment: Payment @connection(fields: ["payment_id"])
+  comment: String
+  rating: Int
 }
 
 type User
@@ -49,12 +53,10 @@ type User
   county: String!
   eircode: String!
   phone: String!
-  bookings: [Booking]
-    @connection(keyName: "byUser", fields: ["id"])
-    @auth(
-      rules: [{ allow: owner, operations: [update, read], ownerField: "email" }]
-    )
+  bookings: [Booking] @connection(keyName: "byUser", fields: ["id"])
   gender: GENDER
+  payments: [Payment] @connection(keyName: "byUser", fields: ["id"])
+  # @auth(rules: [{ allow: public, provider: apiKey }])
 }
 
 type Contractor
@@ -85,7 +87,9 @@ type Contractor
   service_id: ID!
   gender: GENDER!
   phone: String!
-  
+  account: Int
+  rating: Float
+  ratingNumber: Int
 }
 
 type Service
@@ -96,6 +100,30 @@ type Service
   description: String!
   bookings: [Booking] @connection(keyName: "byService", fields: ["id"])
   contractors: [Contractor] @connection(keyName: "byService", fields: ["id"])
+  pricePerMinute: Int
+}
+
+type Payment
+  @model
+  @key(
+    name: "byUser"
+    fields: ["user_id", "date"]
+    queryField: "paymentsByUserAndDate"
+  )
+  @key(
+    name: "byContractor"
+    fields: ["contractor_id", "date"]
+    queryField: "paymentsByUserAndDate"
+  )
+  @auth(rules: [{ allow: private }, { allow: public, provider: apiKey }]) {
+  amount: Int!
+  id: ID!
+  currency: String!
+  date: String!
+  user_id: ID!
+  contractor_id: ID!
+  booking: Booking @connection(fields: ["booking_id"])
+  booking_id: ID!
 }
 
 enum GENDER {

@@ -1,10 +1,17 @@
 const { queryClientApi } = require("./config");
 
-const { getBooking: getBookingQuery } = require("../graphql/queries");
+const { updateContractor: updateContractorQuery } = require("../graphql/mutations");
 
-const getBooking = async (id) => {
-  return (await queryClientApi(getBookingQuery, { id })).data;
+const updateContractor = async (id, data) => {
+  return (
+    await queryClientApi(updateContractorQuery, {
+      input: {
+        id,
+        ...data,
+      },
+    })
+  ).data;
 };
 
-module.exports = { getBooking };
+module.exports = { updateContractor };
  

@@ -62,10 +62,12 @@ export default function Intro(props: IIntroProps) {
               magnam accusantium officia.
             </Paragraph>
             <div className="grid gap-x-8 grid-cols-2">
-              <Link to={ROUTES.UserRegistration}>
+              <Link to={ROUTES.ContractorRegistration}>
                 <ButtonDefault className="w-full">Sign Up</ButtonDefault>
               </Link>
-              <ButtonDefault>Log In</ButtonDefault>
+              <Link to={ROUTES.ContractorSignIn}>
+                <ButtonDefault className="w-full"s>Log In</ButtonDefault>
+              </Link>
             </div>
           </div>
         </div>
