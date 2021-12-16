@@ -38,7 +38,7 @@ export function ContractorVerifyUser(props: IContractorVerifyUserProps) {
   const onSubmit = async (values :VerificationValues, actions:FormikHelpers<VerificationValues>) => {
     try {
       await Auth.confirmSignUp(email, values.verificationToken);
-      navigate(ROUTES.ContractorDashboard);
+      navigate(ROUTES.ContractorSignIn);
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

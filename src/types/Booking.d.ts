@@ -4,7 +4,7 @@ import Id from "./Id";
 import Service from "./Service";
 import User from "./User";
 
-type Booking = {
+export type Booking = {
   user_id?: Id;
   id?: Id;
   contractor_id?: Id;
@@ -19,3 +19,5 @@ type Booking = {
   comment?: string
   rating?: number
 } & Address;
+
+export default Booking

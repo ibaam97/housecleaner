@@ -7,6 +7,7 @@ const ROUTES = {
   UserDashboard: "/user/dashboard",
   UserSettings: "/user/settings",
   ContractorDashboard: "/contractor/dashboard",
+  ContractorSettings: "/contractor/settings",
   Services: "/services",
   Service: "/services/:id",
   getServiceRoute: (id) => ROUTES.Service.replace(":id", id),

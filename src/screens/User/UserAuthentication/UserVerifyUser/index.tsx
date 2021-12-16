@@ -39,7 +39,7 @@ export function UserVerifyUser(props: IUserVerifyUserProps) {
     try {
       console.log(values, email)
       await Auth.confirmSignUp(email, values.verificationToken);
-      navigate(ROUTES.UserDashboard);
+      navigate(ROUTES.UserSignIn);
       // await authStore.signIn(values);
       // await authStore.getUserProfile();
     } catch (error) {

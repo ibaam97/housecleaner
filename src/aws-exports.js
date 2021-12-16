@@ -47,13 +47,10 @@ const awsmobile = {
             "region": "us-east-1"
         }
     ],
-    "aws_dynamodb_all_tables_region": "us-east-1",
-    "aws_dynamodb_table_schemas": [
-        {
-            "tableName": "bookingsTable-dev",
-            "region": "us-east-1"
-        }
-    ]
+    "aws_user_files_s3_bucket": "contractor-images173302-dev",
+    "aws_user_files_s3_bucket_region": "us-east-1",
+    "aws_mobile_analytics_app_id": "1e7462c232d54468bb76dc87a4b25eaf",
+    "aws_mobile_analytics_app_region": "us-east-1"
 };
 
 

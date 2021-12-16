@@ -59,7 +59,7 @@ export const getUserBookings = async ({
 }) => {
   const res = API.graphql(
     graphqlOperation(bookingsByUserAndDate, {
-      user_id: (await getUserAttributes()).email,
+      user_id: user_id || (await getUserAttributes()).email,
       filters,
     })
   ) as Promise<GraphQLResult<ListGraphQueryResult<Booking>>>;
@@ -77,7 +77,7 @@ export const getContractorBookings = async ({
   date?: any;
 }) => {
   const res = API.graphql(
-    graphqlOperation(bookingsByContactorAndDate, { contractor_id, filters })
+    graphqlOperation(bookingsByContactorAndDate, { contractor_id: contractor_id || (await getUserAttributes()).email, filters })
   ) as Promise<GraphQLResult<ListGraphQueryResult<Booking>>>;
   return (await res).data["bookingsByContactorAndDate"].items;
 };
@@ -130,6 +130,21 @@ export const createBooking = async ({
     "bookingsRestApi",
     `/bookings/create`,
     newBooking
+  );
+  return res.data.createBooking;
+};
+
+export const deleteBooking = async ({
+  authToken,
+  booking_id,
+}: {
+  authToken?;
+  booking_id: string;
+}) => {
+  const res = await restRequest(
+    "get",
+    "bookingsRestApi",
+    `/bookings/${booking_id}/delete`
   );
   return res;
 };

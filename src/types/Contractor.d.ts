@@ -2,7 +2,7 @@ import GENDER from "@enums/GENDER";
 import Id from "./Id";
 import Service from "./Service";
 
-type Contractor = {
+export type Contractor = {
   firstname: string;
   lastname: string;
   email: string;
@@ -13,9 +13,10 @@ type Contractor = {
   phone?: string;
   type?: USER_TYPE;
   gender?: GENDER;
-  account?: number
-  rating? :number
-  ratingNumber? :number
+  account?: number;
+  rating?: number;
+  ratingNumber?: number;
+  image?: string;
 } & Address;
 
 export default Contractor;

@@ -34,6 +34,7 @@ export const createBooking = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -51,6 +52,7 @@ export const createBooking = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -108,6 +110,7 @@ export const updateBooking = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -125,6 +128,7 @@ export const updateBooking = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -182,6 +186,7 @@ export const deleteBooking = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -199,6 +204,7 @@ export const deleteBooking = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -239,6 +245,7 @@ export const createUser = /* GraphQL */ `
       eircode
       phone
       gender
+      image
       createdAt
       updatedAt
       bookings {
@@ -265,6 +272,7 @@ export const updateUser = /* GraphQL */ `
       eircode
       phone
       gender
+      image
       createdAt
       updatedAt
       bookings {
@@ -291,6 +299,7 @@ export const deleteUser = /* GraphQL */ `
       eircode
       phone
       gender
+      image
       createdAt
       updatedAt
       bookings {
@@ -321,6 +330,7 @@ export const createContractor = /* GraphQL */ `
       account
       rating
       ratingNumber
+      image
       createdAt
       updatedAt
       bookings {
@@ -356,6 +366,7 @@ export const updateContractor = /* GraphQL */ `
       account
       rating
       ratingNumber
+      image
       createdAt
       updatedAt
       bookings {
@@ -391,6 +402,7 @@ export const deleteContractor = /* GraphQL */ `
       account
       rating
       ratingNumber
+      image
       createdAt
       updatedAt
       bookings {

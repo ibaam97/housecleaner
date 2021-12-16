@@ -5,6 +5,7 @@ const { getBooking: getBookingQuery } = require("../graphql/queries");
 const {
   updateBooking: updateBookingQuery,
   createBooking: createBookingQuery,
+  deleteBooking: deleteBookingQuery,
 } = require("../graphql/mutations");
 
 const getBooking = async (id) => {
@@ -22,6 +23,16 @@ const updateBooking = async (id, data) => {
   ).data;
 };
 
+const deleteBooking = async (id, data) => {
+  return (
+    await queryClientApi(deleteBookingQuery, {
+      input: {
+        id
+      },
+    })
+  ).data;
+};
+
 const createBooking = async (data) => {
   return (
     await queryClientApi(createBookingQuery, {
@@ -32,4 +43,4 @@ const createBooking = async (data) => {
   ).data;
 };
 
-module.exports = { getBooking, updateBooking, createBooking };
+module.exports = { getBooking, updateBooking, createBooking, deleteBooking };

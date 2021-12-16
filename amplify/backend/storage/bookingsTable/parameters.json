@@ -1,7 +1,0 @@
-{
-    "tableName": "bookingsTable",
-    "partitionKeyName": "user_id",
-    "partitionKeyType": "S",
-    "sortKeyName": "date",
-    "sortKeyType": "S"
-}

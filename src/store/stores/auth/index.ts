@@ -18,7 +18,7 @@ import {
   signIn,
 } from "services/api";
 import Contractor from "types/Contractor";
-import { User } from "./auth";
+import User from "types/User";
 
 /**
  * This file is generated as an example of Mobx State Tree Stores
@@ -57,11 +57,9 @@ export const AuthStore = types
           type === USER_TYPE.User
             ? yield getUser({ user_id: userAttributes.email })
             : yield getContractor({ contractor_id: userAttributes.email });
-        console.log(userFromDB, "userFromDb");
         self.setUser({ ...userFromDB, type });
         return userFromDB;
       } catch (error) {
-        //set global error
         console.log(`errorhh`, error);
       }
 
@@ -159,6 +157,7 @@ export const AuthStore = types
       phone,
       type,
       service_id,
+      image
     }: UserSettingsValues) {
       try {
         const user = yield getCurrentUser();
@@ -187,22 +186,24 @@ export const AuthStore = types
           eircode,
           address,
           gender,
+          image,
           phone,
         });
 
+
         if (type === "User") {
-          yield updateUser({
+          console.log(yield updateUser({
             // @ts-ignore
             newUser: updatedUser,
-          });
+          }));
         } else {
-          yield updateContractor({
+          console.log(yield updateContractor({
             // @ts-ignore
             newContractor: addDefinedPropsToObject({
-              ...updateUser,
+              ...updatedUser,
               service_id,
             }),
-          });
+          }));
         }
         yield self.getUserProfile();
         return resp;

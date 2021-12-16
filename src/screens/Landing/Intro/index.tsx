@@ -6,6 +6,8 @@ import H4 from "@UIComponents/Typography/H4";
 import Paragraph from "@UIComponents/Typography/Paragraph";
 import * as React from "react";
 import { Link } from "react-router-dom";
+import ContractorImg from "./images/contractor_img.jpg";
+import CustomerImg from "./images/customer_img.jpg";
 
 export interface IIntroProps {}
 
@@ -15,7 +17,7 @@ export default function Intro(props: IIntroProps) {
       <Section>
         <div className="grid gap-x-24 grid-cols-2">
           <div className="py-10">
-            <H4 className="mb-4">Get yourself a professional cleaner.</H4>
+            <H4 className="mb-4">Get yourself a professional.</H4>
             <Paragraph>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti
               voluptate hic quos autem minus impedit aliquam, laudantium quaerat
@@ -38,17 +40,29 @@ export default function Intro(props: IIntroProps) {
             </div>
           </div>
           <div>
-            <div className="bg-gray-500 rounded-sm h-full"></div>
+            <div
+              className="bg-gray-500 rounded-sm h-full"
+              style={{
+                backgroundImage: `url(${CustomerImg})`,
+                backgroundSize: "cover",
+              }}
+            />
           </div>
         </div>
       </Section>
       <Section className="pt-0">
         <div className="grid gap-x-24 grid-cols-2">
           <div>
-            <div className="bg-gray-500 rounded-sm h-full order-1"></div>
+            <div
+              className="bg-gray-500 rounded-sm h-full order-1"
+              style={{
+                backgroundImage: `url(${ContractorImg})`,
+                backgroundSize: "cover",
+              }}
+            />
           </div>
           <div className="py-10">
-            <H4 className="mb-4">Get yourself a professional cleaner.</H4>
+            <H4 className="mb-4">Become a contractor.</H4>
             <Paragraph>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corrupti
               voluptate hic quos autem minus impedit aliquam, laudantium quaerat
@@ -66,7 +80,9 @@ export default function Intro(props: IIntroProps) {
                 <ButtonDefault className="w-full">Sign Up</ButtonDefault>
               </Link>
               <Link to={ROUTES.ContractorSignIn}>
-                <ButtonDefault className="w-full"s>Log In</ButtonDefault>
+                <ButtonDefault className="w-full" s>
+                  Log In
+                </ButtonDefault>
               </Link>
             </div>
           </div>

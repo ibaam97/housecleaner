@@ -63,7 +63,7 @@ export function BookingJobsCard({
       clearInterval(intervalRef.current);
     };
     //edit
-  }, []);
+  }, [booking]);
 
   return (
     <div>

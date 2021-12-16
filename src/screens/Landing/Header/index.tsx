@@ -9,7 +9,7 @@ export default function Header(props: IHeaderProps) {
   return (
     <div className="h-128 bg-primary-900 flex justify-center items-center">
       <div className="p-24 text-center">
-        <H2 className="text-white mb-8">Welcome to nanny house</H2>
+        <H2 className="text-white mb-8">Welcome to Rework</H2>
         <Paragraph className="text-white max-w-200">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi minus
           ipsa iste laboriosam tempora necessitatibus architecto, eveniet

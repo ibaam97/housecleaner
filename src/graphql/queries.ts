@@ -31,6 +31,7 @@ export const getBooking = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -48,6 +49,7 @@ export const getBooking = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -231,6 +233,7 @@ export const getUser = /* GraphQL */ `
       eircode
       phone
       gender
+      image
       createdAt
       updatedAt
       bookings {
@@ -259,6 +262,7 @@ export const listUsers = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -291,6 +295,7 @@ export const userByEmail = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -325,6 +330,7 @@ export const userByCountyAndGender = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
       }
@@ -348,6 +354,7 @@ export const getContractor = /* GraphQL */ `
       account
       rating
       ratingNumber
+      image
       createdAt
       updatedAt
       bookings {
@@ -385,6 +392,7 @@ export const listContractors = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -421,6 +429,7 @@ export const contractorByEmail = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -459,6 +468,7 @@ export const contractorByServiceAndCounty = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -497,6 +507,7 @@ export const contractorByServiceAndCountyAndGender = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }
@@ -533,6 +544,7 @@ export const userByGender = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
       }

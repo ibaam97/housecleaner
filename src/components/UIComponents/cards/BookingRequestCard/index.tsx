@@ -44,7 +44,7 @@ export function BookingRequestCard({
         </StyledField>
         <StyledField>
           <BaseText fontSize="1rem">Date</BaseText>
-          <Paragraph className="w-max">{format(new Date(date), "dd-mm-yy")}</Paragraph>
+          <Paragraph className="w-max">{format(new Date(date), "dd-MM-yy")}</Paragraph>
         </StyledField>
 
         <div className="ml-auto flex gap-4">

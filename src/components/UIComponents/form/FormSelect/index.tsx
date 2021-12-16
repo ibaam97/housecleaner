@@ -159,14 +159,11 @@ export default function FormSelect({
         <div style={{ flex: 1 }}>
           <StyledSelect
             ref={inputRef}
-            name={name}
             placeholder={placeholder}
-            required={required}
             value={inputValue}
             onChange={changeHandler}
             {...rest}
             id={name}
-            list={`${name}-options`}
             bordered={false}
           >
             {options.map(({ value, title }) => {

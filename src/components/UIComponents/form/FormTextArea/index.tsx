@@ -1,5 +1,4 @@
 import COLORS from "@styles/COLORS";
-import { FormikErrors } from "formik";
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -93,12 +92,10 @@ export interface IFormTextAreaProps {
   required?: boolean;
   inputRef?;
   invalid?;
-  icon?;
-  value;
+  value?;
   onChange?: (el) => any;
   options?: any[];
   label?: string;
-  errors?: string[] | string | FormikErrors<any> | FormikErrors<any>[];
   [prop: string]: any;
 }
 
@@ -158,7 +155,6 @@ export default function FormTextArea({
         <div style={{ flex: 1 }}>
           <StyledInput
             ref={inputRef}
-            type={type}
             name={name}
             placeholder={placeholder}
             required={required}
@@ -166,7 +162,6 @@ export default function FormTextArea({
             onChange={changeHandler}
             {...rest}
             id={name}
-            list={`${name}-options`}
           />
           <StyledPlaceholder>{placeholder}</StyledPlaceholder>
           {options ? (

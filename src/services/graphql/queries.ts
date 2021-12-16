@@ -31,14 +31,9 @@ export const getBooking = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        payments {
-          nextToken
-        }
       }
       contractor {
         firstname
@@ -54,19 +49,9 @@ export const getBooking = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       service {
         name
@@ -75,12 +60,6 @@ export const getBooking = /* GraphQL */ `
         pricePerMinute
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        contractors {
-          nextToken
-        }
       }
       payment {
         amount
@@ -92,24 +71,6 @@ export const getBooking = /* GraphQL */ `
         booking_id
         createdAt
         updatedAt
-        booking {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
       }
     }
   }
@@ -123,70 +84,72 @@ export const listBookings = /* GraphQL */ `
     listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        date
+      date
+      address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
+      user {
+        id
+        firstname
+        lastname
+        email
         address
         county
         eircode
-        user_id
-        contractor_id
-        service_id
-        booking_status
-        checkin_time
-        checkout_time
-        payment_id
-        comment
-        rating
+        phone
+        gender
+        image
         createdAt
         updatedAt
-        user {
-          id
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          phone
-          gender
-          createdAt
-          updatedAt
-        }
-        contractor {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
-        payment {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
+      }
+      contractor {
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        id
+        service_id
+        gender
+        phone
+        account
+        rating
+        ratingNumber
+        image
+        createdAt
+        updatedAt
+      }
+      service {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
       }
       nextToken
     }
@@ -211,70 +174,72 @@ export const bookingsByUserAndDate = /* GraphQL */ `
     ) {
       items {
         id
-        date
+      date
+      address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
+      user {
+        id
+        firstname
+        lastname
+        email
         address
         county
         eircode
-        user_id
-        contractor_id
-        service_id
-        booking_status
-        checkin_time
-        checkout_time
-        payment_id
-        comment
-        rating
+        phone
+        gender
+        image
         createdAt
         updatedAt
-        user {
-          id
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          phone
-          gender
-          createdAt
-          updatedAt
-        }
-        contractor {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
-        payment {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
+      }
+      contractor {
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        id
+        service_id
+        gender
+        phone
+        account
+        rating
+        ratingNumber
+        image
+        createdAt
+        updatedAt
+      }
+      service {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
       }
       nextToken
     }
@@ -299,70 +264,72 @@ export const bookingsByContactorAndDate = /* GraphQL */ `
     ) {
       items {
         id
-        date
+      date
+      address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
+      user {
+        id
+        firstname
+        lastname
+        email
         address
         county
         eircode
-        user_id
-        contractor_id
-        service_id
-        booking_status
-        checkin_time
-        checkout_time
-        payment_id
-        comment
-        rating
+        phone
+        gender
+        image
         createdAt
         updatedAt
-        user {
-          id
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          phone
-          gender
-          createdAt
-          updatedAt
-        }
-        contractor {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
-        payment {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
+      }
+      contractor {
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        id
+        service_id
+        gender
+        phone
+        account
+        rating
+        ratingNumber
+        image
+        createdAt
+        updatedAt
+      }
+      service {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
       }
       nextToken
     }
@@ -387,70 +354,72 @@ export const bookingsByServiceAndDate = /* GraphQL */ `
     ) {
       items {
         id
-        date
+      date
+      address
+      county
+      eircode
+      user_id
+      contractor_id
+      service_id
+      booking_status
+      checkin_time
+      checkout_time
+      payment_id
+      comment
+      rating
+      createdAt
+      updatedAt
+      user {
+        id
+        firstname
+        lastname
+        email
         address
         county
         eircode
-        user_id
-        contractor_id
-        service_id
-        booking_status
-        checkin_time
-        checkout_time
-        payment_id
-        comment
-        rating
+        phone
+        gender
+        image
         createdAt
         updatedAt
-        user {
-          id
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          phone
-          gender
-          createdAt
-          updatedAt
-        }
-        contractor {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
-        payment {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
+      }
+      contractor {
+        firstname
+        lastname
+        email
+        address
+        county
+        eircode
+        id
+        service_id
+        gender
+        phone
+        account
+        rating
+        ratingNumber
+        image
+        createdAt
+        updatedAt
+      }
+      service {
+        name
+        id
+        description
+        pricePerMinute
+        createdAt
+        updatedAt
+      }
+      payment {
+        amount
+        id
+        currency
+        date
+        user_id
+        contractor_id
+        booking_id
+        createdAt
+        updatedAt
+      }
       }
       nextToken
     }
@@ -468,41 +437,13 @@ export const getUser = /* GraphQL */ `
       eircode
       phone
       gender
+      image
       createdAt
       updatedAt
       bookings {
-        items {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       payments {
-        items {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
         nextToken
       }
     }
@@ -525,14 +466,9 @@ export const listUsers = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        payments {
-          nextToken
-        }
       }
       nextToken
     }
@@ -563,14 +499,9 @@ export const userByEmail = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        payments {
-          nextToken
-        }
       }
       nextToken
     }
@@ -603,14 +534,9 @@ export const userByCountyAndGender = /* GraphQL */ `
         eircode
         phone
         gender
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        payments {
-          nextToken
-        }
       }
       nextToken
     }
@@ -632,27 +558,10 @@ export const getContractor = /* GraphQL */ `
       account
       rating
       ratingNumber
+      image
       createdAt
       updatedAt
       bookings {
-        items {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       service {
@@ -662,12 +571,6 @@ export const getContractor = /* GraphQL */ `
         pricePerMinute
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        contractors {
-          nextToken
-        }
       }
     }
   }
@@ -693,19 +596,9 @@ export const listContractors = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -740,19 +633,9 @@ export const contractorByEmail = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -789,19 +672,9 @@ export const contractorByServiceAndCounty = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -838,19 +711,9 @@ export const contractorByServiceAndCountyAndGender = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -885,19 +748,9 @@ export const userByGender = /* GraphQL */ `
         account
         rating
         ratingNumber
+        image
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -913,44 +766,9 @@ export const getService = /* GraphQL */ `
       createdAt
       updatedAt
       bookings {
-        items {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
         nextToken
       }
       contractors {
-        items {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
         nextToken
       }
     }
@@ -970,12 +788,6 @@ export const listServices = /* GraphQL */ `
         pricePerMinute
         createdAt
         updatedAt
-        bookings {
-          nextToken
-        }
-        contractors {
-          nextToken
-        }
       }
       nextToken
     }
@@ -1010,55 +822,6 @@ export const getPayment = /* GraphQL */ `
         rating
         createdAt
         updatedAt
-        user {
-          id
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          phone
-          gender
-          createdAt
-          updatedAt
-        }
-        contractor {
-          firstname
-          lastname
-          email
-          address
-          county
-          eircode
-          id
-          service_id
-          gender
-          phone
-          account
-          rating
-          ratingNumber
-          createdAt
-          updatedAt
-        }
-        service {
-          name
-          id
-          description
-          pricePerMinute
-          createdAt
-          updatedAt
-        }
-        payment {
-          amount
-          id
-          currency
-          date
-          user_id
-          contractor_id
-          booking_id
-          createdAt
-          updatedAt
-        }
       }
     }
   }
@@ -1080,24 +843,6 @@ export const listPayments = /* GraphQL */ `
         booking_id
         createdAt
         updatedAt
-        booking {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }
@@ -1130,24 +875,6 @@ export const paymentsByUserAndDate = /* GraphQL */ `
         booking_id
         createdAt
         updatedAt
-        booking {
-          id
-          date
-          address
-          county
-          eircode
-          user_id
-          contractor_id
-          service_id
-          booking_status
-          checkin_time
-          checkout_time
-          payment_id
-          comment
-          rating
-          createdAt
-          updatedAt
-        }
       }
       nextToken
     }

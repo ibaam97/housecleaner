@@ -1,3 +1,4 @@
+import { MAPS_API } from "@constants/KEYS";
 import ROUTES from "@constants/ROUTES";
 import MakeBookingSchema from "@schemas/makeBookingSchema";
 import ButtonDefault from "@UIComponents/buttons/ButtonDefault";
@@ -5,7 +6,9 @@ import FormInput from "@UIComponents/form/FormInput/FormInput";
 import Screen from "@UIComponents/layout/Screen";
 import Section from "@UIComponents/layout/Section";
 import { Card } from "antd";
+import { Analytics } from "aws-amplify";
 import { Form, Formik, FormikHelpers } from "formik";
+import AddressMapHelper from "lib/AddressMapHelper";
 import * as React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRootStore } from "store";
@@ -20,8 +23,11 @@ export function MakeBooking(props: IMakeBookingProps) {
 
   const service_id = params.id;
 
+  console.log("ferferfref");
+
   const {
     bookingsStore: { createBooking },
+    authStore: { user },
   } = useRootStore();
 
   const initialValues: MakeBookingValues = {
@@ -37,8 +43,10 @@ export function MakeBooking(props: IMakeBookingProps) {
   ) => {
     console.log(values);
     try {
+      console.log("hello");
       const booking = await createBooking({ ...values, service_id });
       console.log(booking);
+      await Analytics.record({ name: "madeBooking", attributes: {user: user.id, booking: booking.id} });
       navigate(ROUTES.UserDashboard);
     } catch (error) {
       console.log(error);
@@ -78,12 +86,13 @@ export function MakeBooking(props: IMakeBookingProps) {
                   value={values.county}
                   errors={errors.county}
                 />
-                <FormInput
+                <AddressMapHelper
                   name="address"
                   placeholder="address"
                   onChange={handleChange}
                   value={values.address}
                   errors={errors.address}
+                  apiKey={MAPS_API}
                 />
                 <ButtonDefault type="submit">Submit</ButtonDefault>
               </Form>

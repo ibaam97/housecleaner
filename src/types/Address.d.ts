@@ -1,5 +1,5 @@
-type Address = {
-    address: string
-    county: string
-    eircode: string
+export type Address = {
+    address?: string
+    county?: string
+    eircode?: string
 }

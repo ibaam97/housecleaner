@@ -59,13 +59,17 @@ export function ContractorJobs(props: IContractorJobsProps) {
   return (
     <div>
       <div className="grid">
-        {bookings.map((booking) => (
-          <BookingJobsCard
-            booking={booking}
-            onClick={onClick}
-            key={booking.id}
-          />
-        ))}
+        {bookings
+          .filter(
+            ({ booking_status }) => booking_status !== BOOKING_STATUS.PAID
+          )
+          .map((booking) => (
+            <BookingJobsCard
+              booking={booking}
+              onClick={onClick}
+              key={booking.id}
+            />
+          ))}
       </div>
     </div>
   );

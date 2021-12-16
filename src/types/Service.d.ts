@@ -1,7 +1,7 @@
 import { string } from "yup/lib/locale";
 import Id from "./Id";
 
-type Service = {
+export type Service = {
   name: string,
   id: Id,
   description: string,

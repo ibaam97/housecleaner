@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 
-const ButtonDefault = styled.button`
+const ButtonDefault = styled.button<{ outline?; [props: string]: any }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,8 @@ const ButtonDefault = styled.button`
   ${tw`2xl:text-base text-sm`}
   ${tw`rounded transform hover:scale-105 active:scale-100`};
   color: ${({ color, outline }) => (outline ? color || "#3200C8" : "white")};
-  background: ${({ outline, color }) => (outline ? `none` : color ? color : "#3200C8")};
+  background: ${({ outline, color }) =>
+    outline ? `none` : color ? color : "#3200C8"};
   /* background: ${({ color }) => (color ? color : "#3200C8")}; */
   ${({ disabled }) => disabled && `filter: grayscale(90%);`}
   background-size: 150%;

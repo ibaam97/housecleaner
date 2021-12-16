@@ -14,7 +14,7 @@ export default function Screen({ children, className="",...props }) {
         <NavigationHeader/>
       </Header>
       <Content className={className}>{children}</Content>
-      <Footer tw="bg-primary-800">Hello</Footer>
+      <Footer tw="bg-gray-300">Rework ©2021 Created by Ayodeji Ibrahim</Footer>
     </Layout>
   );
 }

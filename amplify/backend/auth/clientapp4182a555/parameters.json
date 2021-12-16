@@ -1,6 +1,6 @@
 {
     "identityPoolName": "clientapp4182a555_identitypool_4182a555",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "client4182a555",
     "userPoolName": "clientapp4182a555_userpool_4182a555",
     "autoVerifiedAttributes": [
@@ -79,7 +79,7 @@
             ]
         }
     ],
-    "userPoolGroups": true,
+    "userPoolGroups": false,
     "adminQueries": true,
     "triggers": "{\n  \"PostConfirmation\": [\n    \"add-to-group\"\n  ]\n}",
     "hostedUI": false,

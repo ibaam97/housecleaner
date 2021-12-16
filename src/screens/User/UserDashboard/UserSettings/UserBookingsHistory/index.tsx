@@ -28,7 +28,7 @@ export function UserBookingsHistory(props: IUserBookingsHistoryProps) {
       {bookings
         .filter((booking) => booking.booking_status === BOOKING_STATUS.PAID)
         .map((booking) => (
-          <BookingCard key={booking.id} booking={booking} />
+          <BookingCard key={booking.id} booking={booking} onDelete={()=>{}}/>
         ))}
     </div>
   );

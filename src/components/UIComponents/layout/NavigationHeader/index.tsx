@@ -1,5 +1,6 @@
 import ROUTES from "@constants/ROUTES";
 import USER_TYPE from "@enums/USER_TYPE.enum";
+import Paragraph from "@UIComponents/Typography/Paragraph";
 import { Menu } from "antd";
 import { observer } from "mobx-react";
 import * as React from "react";
@@ -20,34 +21,38 @@ export const NavigationHeader = observer((props: INavigationHeaderProps) => {
   const navigate = useNavigate();
 
   const ContractorNavBar = (
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+      <Menu.Item disabled className="cursor" >Hi {user?.firstname}</Menu.Item>
       <MenuItem to={ROUTES.ContractorDashboard}>Bookings</MenuItem>
-        {/* <MenuItem to={ROUTES.}>Settings</MenuItem> */}
-        {/* <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem> */}
-        <MenuItem
-          onClick={async () => {
-            await authStore.logOut();
-            navigate(ROUTES.LandingScreen);
-          }}
-        >
-          Log Out
-        </MenuItem>
-      </Menu>
+      <MenuItem to={ROUTES.ContractorSettings}>Settings</MenuItem>
+
+      {/* <MenuItem to={ROUTES.}>Settings</MenuItem> */}
+      {/* <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem> */}
+      <MenuItem
+        onClick={async () => {
+          await authStore.logOut();
+          navigate(ROUTES.LandingScreen);
+        }}
+      >
+        Log Out
+      </MenuItem>
+    </Menu>
   );
 
   const UserNavBar = (
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
+      <Menu.Item disabled className="cursor" >Hi {user?.firstname}</Menu.Item>
       <MenuItem to={ROUTES.UserBookings}>Bookings</MenuItem>
-        <MenuItem to={ROUTES.UserSettings}>Settings</MenuItem>
-        <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem>
-        <MenuItem
-          onClick={async () => {
-            await authStore.logOut();
-            navigate(ROUTES.LandingScreen);
-          }}
-        >
-          Log Out
-        </MenuItem>
+      <MenuItem to={ROUTES.UserSettings}>Settings</MenuItem>
+      <MenuItem to={ROUTES.UserDashboard}>Make Booking</MenuItem>
+      <MenuItem
+        onClick={async () => {
+          await authStore.logOut();
+          navigate(ROUTES.LandingScreen);
+        }}
+      >
+        Log Out
+      </MenuItem>
     </Menu>
   );
 
@@ -64,10 +69,19 @@ export const NavigationHeader = observer((props: INavigationHeaderProps) => {
   return <Section className="py-0">{currentNavBar}</Section>;
 });
 
-const MenuItem = ({ to, onClick, ...props }: {to?:string, [prop:string]:any}) => {
+const MenuItem = ({
+  to,
+  onClick,
+  ...props
+}: {
+  to?: string;
+  [prop: string]: any;
+}) => {
   const navigate = useNavigate();
 
-  return <Menu.Item {...props} onClick={(e) => (to ? navigate(to) : onClick?.(e))} />;
+  return (
+    <Menu.Item {...props} onClick={(e) => (to ? navigate(to) : onClick?.(e))} />
+  );
 };
 
 export default NavigationHeader;

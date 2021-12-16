@@ -23,9 +23,9 @@ const StyledArrowLine = styled(ArrowLine)`
   }
 `;
 
-export default function ButtonLink({ children, ...props }) {
+export default function ButtonLink({ children, to, ...props }) {
   return (
-    <Button {...props}>
+    <Button to={to} {...props}>
       {children} <StyledArrowLine />
     </Button>
   );

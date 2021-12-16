@@ -39,6 +39,7 @@ const getBooking = gql`
         phone
         createdAt
         updatedAt
+        account
       }
       contractor_id
       service {

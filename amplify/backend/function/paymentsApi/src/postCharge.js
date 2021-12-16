@@ -62,24 +62,27 @@ async function postCharge(req, res) {
 
     const { id, currency } = charge;
 
-    const [updatedContractor, createdPayment, updatedBooking] = await Promise.all([
-       updateContractor(contractor_id, {
-        account: contractor.account ? contractor.account + amount : amount,
-      }),
-       createPayment({
-        id,
-        currency,
-        amount,
-        booking_id,
-        user_id,
-        contractor_id,
-        date: Date.now(),
-      }),
-       updateBooking(booking_id, {
-        booking_status: "PAID",
-        payment_id: id,
-      }),
-    ]);
+    const [updatedContractor, createdPayment, updatedBooking] =
+      await Promise.all([
+        updateContractor(contractor_id, {
+          account: contractor.account
+            ? contractor.account + amount * 0.5
+            : amount * 0.5,
+        }),
+        createPayment({
+          id,
+          currency,
+          amount,
+          booking_id,
+          user_id,
+          contractor_id,
+          date: Date.now(),
+        }),
+        updateBooking(booking_id, {
+          booking_status: "PAID",
+          payment_id: id,
+        }),
+      ]);
 
     console.log(
       updatedBooking,

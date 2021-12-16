@@ -56,6 +56,7 @@ type User
   bookings: [Booking] @connection(keyName: "byUser", fields: ["id"])
   gender: GENDER
   payments: [Payment] @connection(keyName: "byUser", fields: ["id"])
+  image: String
   # @auth(rules: [{ allow: public, provider: apiKey }])
 }
 
@@ -90,6 +91,7 @@ type Contractor
   account: Int
   rating: Float
   ratingNumber: Int
+  image: String
 }
 
 type Service

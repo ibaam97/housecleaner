@@ -22,8 +22,10 @@ const {
   getBooking,
   updateBooking,
   createBooking,
+  deleteBooking,
 } = require("./services/api/bookings");
 const { updateContractor } = require("./services/api/users");
+const { message } = require("antd");
 
 // declare a new express app
 var app = express();
@@ -81,6 +83,17 @@ app.get("/bookings/:id/checkin", async function (req, res) {
     checkin_time: Date.now().toString(),
   });
   return res.json(updatedBooking);
+});
+
+app.delete("/bookings/:id", async function (req, res) {
+  const user = req.apiGateway.event.requestContext.authorizer?.claims;
+  console.log(user);
+  if (!user) return res.status(401).json({ message: "Unauthorized" });
+  const bookingId = req.params.id;
+  const booking = await getBooking(bookingId);
+  if (!booking) return res.status(400).json({message: "no booking"});
+  const deletedBooking = await deleteBooking(bookingId);
+  return res.json(deletedBooking);
 });
 
 app.get("/bookings/:id/checkout", async function (req, res) {

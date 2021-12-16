@@ -2,6 +2,7 @@ import {
   createBooking,
   createReview,
   getBookings,
+  getContractorBookings,
   getServiceBookings,
   getUserBookings,
 } from "@services/api/bookings";
@@ -53,6 +54,21 @@ export const BookingsStore = types
         self.fetching = false;
       }
     }),
+    getContractorBookings: flow(function* (payload) {
+      try {
+        self.fetching = true;
+        const bookings = yield getContractorBookings(payload);
+        self.bookings = bookings;
+        return bookings;
+      } catch (error) {
+        //set global error
+        console.log({ ...error });
+        console.log(`error`, error);
+        throw error;
+      } finally {
+        self.fetching = false;
+      }
+    }),
     getServiceBookings: flow(function* ({ service_id }) {
       try {
         self.fetching = true;
@@ -76,7 +92,6 @@ export const BookingsStore = types
         console.log("payload", payload);
         const booking = yield createBooking({ newBooking: payload });
         yield self.getBookings({});
-        // self.bookingsMeta = rest;
         return booking;
       } catch (error) {
         //set global error
@@ -90,13 +105,11 @@ export const BookingsStore = types
     createReview: flow(function* ({ booking_id, comment, rating }) {
       try {
         self.fetching = true;
-        // console.log("payload", payload);
         const booking = yield createReview({
           booking_id,
           comment,
           rating,
         });
-        // self.bookingsMeta = rest;
         return booking;
       } catch (error) {
         console.log({ ...error });

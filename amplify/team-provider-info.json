@@ -31,11 +31,17 @@
         },
         "bookingsRestApiFunction": {
           "deploymentBucketName": "amplify-clientapp-dev-173302-deployment",
-          "s3Key": "amplify-builds/bookingsRestApiFunction-3773576e724953623478-build.zip"
+          "s3Key": "amplify-builds/bookingsRestApiFunction-344773796a30706d4b4c-build.zip"
         },
         "paymentsApi": {
           "deploymentBucketName": "amplify-clientapp-dev-173302-deployment",
-          "s3Key": "amplify-builds/paymentsApi-2b64786e325638614337-build.zip"
+          "s3Key": "amplify-builds/paymentsApi-494349344f2f786b6171-build.zip"
+        }
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2xzpctdxu0kz7",
+          "type": "cicd"
         }
       }
     }

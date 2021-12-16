@@ -19,7 +19,7 @@ export const defaultPaginatedList: PaginatedListPayload = {
 };
 
 export const restRequest = async (
-  type: "post" | "get" | "put",
+  type: "post" | "get" | "put" | "del",
   apiname: string,
   route: string,
   body?
